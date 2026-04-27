@@ -1,0 +1,323 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =====================================================
+   COLOR TOKENS — RGB triplets (no commas, no #)
+   All Tailwind color classes reference these vars.
+   Toggle .theme-tropical on <html> to switch palette.
+   ===================================================== */
+:root {
+  /* Volcan – volcanic dark */
+  --color-volcan:     10 22 20;
+  --color-volcan-50:  26 40 38;
+  --color-volcan-100: 21 33 32;
+  --color-volcan-900: 5 10 9;
+
+  /* Marfil – ivory light */
+  --color-marfil:     248 245 238;
+  --color-marfil-50:  255 254 251;
+  --color-marfil-100: 251 249 243;
+  --color-marfil-200: 248 245 238;
+  --color-marfil-300: 239 233 218;
+  --color-marfil-400: 224 214 188;
+
+  /* Selva – jungle green */
+  --color-selva:     27 94 69;
+  --color-selva-50:  232 244 238;
+  --color-selva-100: 201 228 213;
+  --color-selva-200: 146 201 171;
+  --color-selva-300: 91 174 130;
+  --color-selva-400: 45 138 96;
+  --color-selva-500: 27 94 69;
+  --color-selva-600: 21 74 55;
+  --color-selva-700: 16 55 41;
+  --color-selva-800: 10 36 27;
+  --color-selva-900: 5 18 14;
+
+  /* Hibisco – coral red */
+  --color-hibisco:     220 38 38;
+  --color-hibisco-50:  254 242 242;
+  --color-hibisco-100: 254 226 226;
+  --color-hibisco-400: 248 113 113;
+  --color-hibisco-500: 220 38 38;
+  --color-hibisco-600: 185 28 28;
+  --color-hibisco-700: 153 27 27;
+
+  /* Sol – golden yellow */
+  --color-sol:     244 185 66;
+  --color-sol-50:  254 249 238;
+  --color-sol-100: 254 241 214;
+  --color-sol-400: 247 201 103;
+  --color-sol-500: 244 185 66;
+  --color-sol-600: 212 154 38;
+
+  /* Arena – sandy tan */
+  --color-arena:     212 165 116;
+  --color-arena-50:  250 246 240;
+  --color-arena-100: 242 232 217;
+  --color-arena-200: 229 210 181;
+  --color-arena-400: 220 182 138;
+  --color-arena-500: 212 165 116;
+  --color-arena-600: 184 133 77;
+
+  /* Niebla – mist gray */
+  --color-niebla:     148 163 160;
+  --color-niebla-50:  241 244 243;
+  --color-niebla-100: 218 225 223;
+  --color-niebla-400: 168 180 177;
+  --color-niebla-500: 148 163 160;
+  --color-niebla-600: 110 124 121;
+  --color-niebla-700: 77 88 86;
+}
+
+/* =====================================================
+   TROPICAL PALETTE OVERRIDE
+   ===================================================== */
+.theme-tropical {
+  --color-volcan:     252 255 250;
+  --color-volcan-50:  240 248 242;
+  --color-volcan-100: 228 244 232;
+  --color-volcan-900: 255 255 255;
+
+  --color-marfil:     10 22 20;
+  --color-marfil-50:  5 10 9;
+  --color-marfil-100: 8 16 14;
+  --color-marfil-200: 10 22 20;
+  --color-marfil-300: 20 40 35;
+  --color-marfil-400: 35 65 55;
+
+  --color-selva:     22 163 74;
+  --color-selva-50:  240 253 244;
+  --color-selva-100: 220 252 231;
+  --color-selva-200: 187 247 208;
+  --color-selva-300: 74 222 128;
+  --color-selva-400: 34 197 94;
+  --color-selva-500: 22 163 74;
+  --color-selva-600: 21 128 61;
+  --color-selva-700: 20 83 45;
+  --color-selva-800: 5 46 22;
+  --color-selva-900: 2 26 12;
+
+  --color-hibisco:     185 28 28;
+  --color-hibisco-500: 185 28 28;
+  --color-hibisco-600: 153 27 27;
+
+  --color-sol:     234 179 8;
+  --color-sol-400: 250 204 21;
+  --color-sol-500: 234 179 8;
+  --color-sol-600: 202 138 4;
+
+  --color-arena:     180 120 60;
+  --color-arena-400: 200 150 90;
+  --color-arena-500: 180 120 60;
+  --color-arena-600: 145 95 45;
+
+  --color-niebla: 90 110 105;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: rgb(var(--color-volcan));
+  color: rgb(var(--color-marfil));
+  font-feature-settings: "ss01", "ss02", "cv01", "cv11";
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+body {
+  background: rgb(var(--color-volcan));
+  color: rgb(var(--color-marfil));
+  overflow-x: hidden;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+::selection {
+  background: #F4B942;
+  color: #0A1614;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: rgb(var(--color-volcan)); }
+::-webkit-scrollbar-thumb { background: rgb(var(--color-selva)); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--color-sol)); }
+
+/* Hide cursor on fine-pointer devices */
+@media (pointer: fine) {
+  .has-custom-cursor,
+  .has-custom-cursor * { cursor: none !important; }
+}
+
+/* Marquee */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+.text-balance { text-wrap: balance; }
+
+/* =====================================================
+   GLASS MORPHISM — theme-aware
+   ===================================================== */
+.glass {
+  background: rgb(var(--color-marfil) / 0.045);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgb(var(--color-marfil) / 0.09);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.glass-strong {
+  background: rgb(var(--color-volcan) / 0.82);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgb(var(--color-marfil) / 0.10);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.theme-tropical .glass {
+  background: rgb(var(--color-marfil) / 0.07);
+  border-color: rgb(var(--color-marfil) / 0.14);
+}
+
+.theme-tropical .glass-strong {
+  background: rgb(var(--color-volcan) / 0.88);
+  border-color: rgb(var(--color-marfil) / 0.14);
+}
+
+/* =====================================================
+   GRADIENT TEXTS
+   ===================================================== */
+.gradient-text {
+  background: linear-gradient(
+    120deg,
+    rgb(var(--color-marfil)) 0%,
+    rgb(var(--color-sol)) 50%,
+    rgb(var(--color-arena)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gradient-emerald {
+  background: linear-gradient(
+    120deg,
+    rgb(var(--color-selva-500)) 0%,
+    rgb(var(--color-selva-400)) 50%,
+    rgb(var(--color-selva-300)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Tropical gradient-text uses accent colors, not light-on-dark */
+.theme-tropical .gradient-text {
+  background: linear-gradient(
+    120deg,
+    rgb(var(--color-selva)) 0%,
+    rgb(var(--color-sol)) 50%,
+    rgb(var(--color-hibisco)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* =====================================================
+   BUTTONS
+   ===================================================== */
+.btn-primary {
+  @apply relative inline-flex items-center justify-center gap-2 px-7 py-3.5 font-semibold rounded-full overflow-hidden transition-all duration-300;
+  background: rgb(var(--color-sol));
+  color: #0A1614; /* always dark on gold */
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px -8px rgb(var(--color-sol) / 0.6);
+}
+
+.btn-ghost {
+  @apply relative inline-flex items-center justify-center gap-2 px-7 py-3.5 font-medium rounded-full border transition-all duration-300;
+  color: rgb(var(--color-marfil));
+  border-color: rgb(var(--color-marfil) / 0.2);
+}
+.btn-ghost:hover {
+  background: rgb(var(--color-marfil) / 0.05);
+  border-color: rgb(var(--color-sol) / 0.5);
+}
+
+/* Shine animation */
+.shine { position: relative; overflow: hidden; }
+.shine::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.8s ease;
+}
+.shine:hover::before { transform: translateX(100%); }
+
+/* =====================================================
+   SECTION DIVIDERS & DECORATIVE
+   ===================================================== */
+.divider-leaf {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(var(--color-sol) / 0.4), transparent);
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(var(--color-sol) / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--color-sol) / 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.bg-grid-fade {
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+.noise-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.glow-sol   { box-shadow: 0 0 60px -10px rgb(var(--color-sol) / 0.5); }
+.glow-selva { box-shadow: 0 0 80px -10px rgb(var(--color-selva) / 0.6); }
+
+.text-shadow-soft { text-shadow: 0 2px 24px rgb(var(--color-volcan) / 0.5); }
+
+.stripe-cr {
+  background: repeating-linear-gradient(
+    180deg,
+    rgb(var(--color-selva)) 0 8px,
+    rgb(var(--color-marfil)) 8px 12px,
+    rgb(var(--color-hibisco)) 12px 28px,
+    rgb(var(--color-marfil)) 28px 32px,
+    rgb(var(--color-selva)) 32px 40px
+  );
+}
+
+.fade-x {
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+}
+
+canvas.three-canvas { outline: none; touch-action: none; }

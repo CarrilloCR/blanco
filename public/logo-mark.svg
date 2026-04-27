@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Trans Blanco — Marca tipo rueda de Sarchí minimalista -->
+  <defs>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8F5EE"/>
+      <stop offset="100%" stop-color="#D4A574"/>
+    </linearGradient>
+    <linearGradient id="hub" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1B5E45"/>
+      <stop offset="100%" stop-color="#0A1614"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer rim -->
+  <circle cx="100" cy="100" r="92" stroke="url(#rim)" stroke-width="3"/>
+  <circle cx="100" cy="100" r="82" stroke="#F8F5EE" stroke-width="1" stroke-opacity="0.4"/>
+
+  <!-- Sarchí radial wedges — 8 alternating segments -->
+  <g transform="translate(100 100)">
+    <g>
+      <path d="M 0 -78 L 22 -22 L 0 0 Z" fill="#DC2626"/>
+      <path d="M 0 -78 L -22 -22 L 0 0 Z" fill="#F4B942"/>
+    </g>
+    <g transform="rotate(45)">
+      <path d="M 0 -78 L 22 -22 L 0 0 Z" fill="#1B5E45"/>
+      <path d="M 0 -78 L -22 -22 L 0 0 Z" fill="#F8F5EE"/>
+    </g>
+    <g transform="rotate(90)">
+      <path d="M 0 -78 L 22 -22 L 0 0 Z" fill="#DC2626"/>
+      <path d="M 0 -78 L -22 -22 L 0 0 Z" fill="#F4B942"/>
+    </g>
+    <g transform="rotate(135)">
+      <path d="M 0 -78 L 22 -22 L 0 0 Z" fill="#1B5E45"/>
+      <path d="M 0 -78 L -22 -22 L 0 0 Z" fill="#F8F5EE"/>
+    </g>
+    <g transform="rotate(180)">
+      <path d="M 0 -78 L 22 -22 L 0 0 Z" fill="#DC2626"/>
+      <path d="M 0 -78 L -22 -22 L 0 0 Z" fill="#F4B942"/>
+    </g>
+    <g transform="rotate(225)">
+      <path d="M 0 -78 L 22 -22 L 0 0 Z" fill="#1B5E45"/>
+      <path d="M 0 -78 L -22 -22 L 0 0 Z" fill="#F8F5EE"/>
+    </g>
+    <g transform="rotate(270)">
+      <path d="M 0 -78 L 22 -22 L 0 0 Z" fill="#DC2626"/>
+      <path d="M 0 -78 L -22 -22 L 0 0 Z" fill="#F4B942"/>
+    </g>
+    <g transform="rotate(315)">
+      <path d="M 0 -78 L 22 -22 L 0 0 Z" fill="#1B5E45"/>
+      <path d="M 0 -78 L -22 -22 L 0 0 Z" fill="#F8F5EE"/>
+    </g>
+  </g>
+
+  <!-- Spokes / dividers -->
+  <g stroke="#0A1614" stroke-width="0.8" stroke-opacity="0.6">
+    <line x1="100" y1="22" x2="100" y2="178"/>
+    <line x1="22" y1="100" x2="178" y2="100"/>
+    <line x1="44.8" y1="44.8" x2="155.2" y2="155.2"/>
+    <line x1="155.2" y1="44.8" x2="44.8" y2="155.2"/>
+  </g>
+
+  <!-- Inner rim -->
+  <circle cx="100" cy="100" r="34" fill="url(#hub)" stroke="#F8F5EE" stroke-width="1.5"/>
+
+  <!-- Central monogram TB -->
+  <g fill="#F8F5EE">
+    <path d="M 82 88 L 100 88 L 100 92 L 93 92 L 93 112 L 89 112 L 89 92 L 82 92 Z"/>
+    <path d="M 102 88 L 110 88 Q 116 88 116 93 Q 116 96 113 97.5 Q 117 99 117 103 Q 117 112 109 112 L 102 112 Z M 106 92 L 106 96 L 109 96 Q 112 96 112 94 Q 112 92 109 92 Z M 106 100 L 106 108 L 109 108 Q 113 108 113 104 Q 113 100 109 100 Z"/>
+  </g>
+</svg>
