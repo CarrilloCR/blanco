@@ -193,66 +193,29 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — Spinning wheel */}
+          {/* RIGHT — Logo grande, sin giro */}
           <motion.div
             style={{ y: wheelY }}
-            className="lg:col-span-5 relative h-[480px] sm:h-[560px] flex items-center justify-center"
+            className="lg:col-span-5 relative h-[600px] sm:h-[760px] lg:h-[880px] flex items-center justify-center"
           >
             <motion.div
-              style={{ rotate: wheelRotate, x: px2, y: py2 }}
+              style={{ x: px2, y: py2 }}
               className="absolute inset-0 flex items-center justify-center"
             >
-              <div className="relative w-[120%] aspect-square">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-sol/10 via-transparent to-selva/10 blur-3xl" />
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-0"
-                >
-                  <LogoMark size={520} className="w-full h-full" />
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* Floating status cards */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              style={{ x: px1, y: py1 }}
-              className="absolute top-6 -left-2 sm:left-2 glass rounded-2xl p-4 max-w-[210px]"
-            >
-              <div className="flex items-center gap-2 text-xs text-arena mb-1">
-                <div className="w-2 h-2 rounded-full bg-sol" />
-                <span className="font-mono tracking-widest">PEDIDO ASIGNADO</span>
-              </div>
-              <div className="text-marfil text-sm font-medium leading-tight">
-                Hyundai H1 · conductor en camino
-              </div>
-              <div className="text-arena/70 text-xs mt-2 font-mono">
-                Aeropuerto SJO → Liberia
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.75 }}
-              style={{ x: px2, y: py2 }}
-              className="absolute bottom-12 -right-2 sm:right-2 glass rounded-2xl p-4 max-w-[220px]"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 rounded-full bg-selva-300 animate-pulse" />
-                <span className="text-[11px] font-mono tracking-widest text-selva-300">
-                  EN RUTA
-                </span>
-              </div>
-              <div className="text-marfil text-sm font-medium leading-tight">
-                3 unidades activas hoy
-              </div>
-              <div className="text-arena/70 text-xs mt-1.5">
-                Guanacaste · San José · Limón
-              </div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-sol/15 via-transparent to-selva/15 blur-3xl" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo-tb.png"
+                alt="Trans Blanco Costa Rica"
+                style={{
+                  width: "min(1600px, 130vw)",
+                  height: "auto",
+                  maxHeight: "none",
+                  objectFit: "contain",
+                  display: "block",
+                }}
+                className="relative z-10 drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]"
+              />
             </motion.div>
           </motion.div>
         </div>
