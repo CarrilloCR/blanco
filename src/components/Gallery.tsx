@@ -2,8 +2,9 @@
 
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
-import { X, ZoomIn } from "lucide-react";
+import { MapPin, Mountain, Sparkles, X } from "lucide-react";
 import FloatingShapes from "./FloatingShapes";
+import DomeGallery from "./DomeGallery";
 
 type Variant =
   | "volcano" | "beach" | "forest" | "sunset" | "river"
@@ -15,35 +16,159 @@ type Photo = {
   caption: string;
   tag: string;
   variant: Variant;
-  ratio: "square" | "tall" | "wide";
+  info: {
+    region: string;
+    elevation?: string;
+    type: string;
+    description: string;
+    highlights: string[];
+    driveTime: string;
+  };
 };
 
-// Fotos reales · Wikimedia Commons (CC-BY) descargadas a /public/images/gallery
 const PHOTOS: Photo[] = [
-  { src: "/images/gallery/arenal.jpg",        alt: "Volcán Arenal",          caption: "Volcán Arenal · La Fortuna",    tag: "ALAJUELA",    variant: "volcano",   ratio: "tall" },
-  { src: "/images/gallery/manuel-antonio.jpeg", alt: "Playa Manuel Antonio", caption: "Manuel Antonio",                tag: "PUNTARENAS",  variant: "beach",     ratio: "square" },
-  { src: "/images/gallery/monteverde.jpg",    alt: "Bosque Nuboso",          caption: "Bosque Nuboso · Monteverde",    tag: "PUNTARENAS",  variant: "forest",    ratio: "wide" },
-  { src: "/images/gallery/tamarindo.jpg",     alt: "Playa Tamarindo",        caption: "Atardecer · Tamarindo",         tag: "GUANACASTE",  variant: "sunset",    ratio: "square" },
-  { src: "/images/gallery/tortuguero.jpg",    alt: "Canales de Tortuguero",  caption: "Canales de Tortuguero",         tag: "LIMÓN",       variant: "river",     ratio: "tall" },
-  { src: "/images/gallery/puerto-viejo.jpg",  alt: "Costa Caribeña",         caption: "Costa Caribeña · Puerto Viejo", tag: "LIMÓN",       variant: "caribbean", ratio: "wide" },
-  { src: "/images/gallery/rio-celeste.jpg",   alt: "Río Celeste",            caption: "Río Celeste",                   tag: "ALAJUELA",    variant: "waterfall", ratio: "tall" },
-  { src: "/images/gallery/nicoya.jpg",        alt: "Península de Nicoya",    caption: "Península de Nicoya",           tag: "GUANACASTE",  variant: "coast",     ratio: "square" },
-  { src: "/images/gallery/tarrazu.jpg",       alt: "Cafetales de Tarrazú",   caption: "Cafetales · Tarrazú",           tag: "SAN JOSÉ",    variant: "coffee",    ratio: "square" },
-  { src: "/images/gallery/irazu.jpg",         alt: "Volcán Irazú",           caption: "Volcán Irazú",                  tag: "CARTAGO",     variant: "volcano",   ratio: "wide" },
-  { src: "/images/gallery/drake-bay.jpg",     alt: "Bahía Drake · Osa",      caption: "Bahía Drake · Osa",             tag: "PUNTARENAS",  variant: "beach",     ratio: "tall" },
-  { src: "/images/gallery/sarapiqui.jpg",     alt: "Selva de Sarapiquí",     caption: "Selva de Sarapiquí · Braulio Carrillo", tag: "HEREDIA", variant: "forest", ratio: "square" },
+  {
+    src: "/images/gallery/arenal.jpg", alt: "Volcán Arenal · La Fortuna", caption: "Volcán Arenal · La Fortuna",
+    tag: "ALAJUELA", variant: "volcano",
+    info: {
+      region: "La Fortuna, San Carlos",
+      elevation: "1 670 m s.n.m.",
+      type: "Volcán activo · Parque Nacional",
+      description: "Cono volcánico perfecto rodeado por bosque tropical, aguas termales y la laguna Arenal. Punto turístico más visitado del país.",
+      highlights: ["Aguas termales Tabacón", "Catarata La Fortuna", "Puentes colgantes", "Laguna Arenal"],
+      driveTime: "≈ 2h 45min desde SJO",
+    },
+  },
+  {
+    src: "/images/gallery/manuel-antonio.jpeg", alt: "Manuel Antonio", caption: "Manuel Antonio",
+    tag: "PUNTARENAS", variant: "beach",
+    info: {
+      region: "Quepos, Pacífico Central",
+      type: "Parque Nacional · Playa",
+      description: "Selva tropical bordeando playas de arena blanca con monos cariblanco, perezosos e iguanas a la vista.",
+      highlights: ["Playa Espadilla Sur", "Punta Catedral", "Fauna nativa", "Senderos cortos"],
+      driveTime: "≈ 2h 45min desde SJO",
+    },
+  },
+  {
+    src: "/images/gallery/monteverde.jpg", alt: "Bosque Nuboso · Monteverde", caption: "Bosque Nuboso · Monteverde",
+    tag: "PUNTARENAS", variant: "forest",
+    info: {
+      region: "Monteverde, Tilarán",
+      elevation: "1 440 m s.n.m.",
+      type: "Reserva biológica · Bosque nuboso",
+      description: "Bosque siempre húmedo entre las nubes, con biodiversidad única, puentes colgantes y avistamiento del quetzal.",
+      highlights: ["Reserva Santa Elena", "Puentes en el dosel", "Quetzal resplandeciente", "Café de altura"],
+      driveTime: "≈ 3h 30min desde SJO",
+    },
+  },
+  {
+    src: "/images/gallery/tamarindo.jpg", alt: "Atardecer · Tamarindo", caption: "Atardecer · Tamarindo",
+    tag: "GUANACASTE", variant: "sunset",
+    info: {
+      region: "Santa Cruz, Pacífico Norte",
+      type: "Playa · Pueblo surfista",
+      description: "La playa más popular del Pacífico Norte. Olas constantes, atardeceres dorados y vida nocturna activa.",
+      highlights: ["Surf todo el año", "Atardeceres", "Restaurantes a pie de playa", "Estuario Las Baulas"],
+      driveTime: "≈ 4h 30min desde SJO · 1h 20min desde LIR",
+    },
+  },
+  {
+    src: "/images/gallery/tortuguero.jpg", alt: "Canales de Tortuguero", caption: "Canales de Tortuguero",
+    tag: "LIMÓN", variant: "river",
+    info: {
+      region: "Tortuguero, Caribe Norte",
+      type: "Parque Nacional · Canales",
+      description: "Red de canales navegables a través de selva primaria. Desove de tortuga verde entre julio y octubre.",
+      highlights: ["Desove de tortugas", "Tours en lancha", "Caimanes y manatíes", "Bosque inundado"],
+      driveTime: "≈ 4h en bus + 1h 30min en lancha",
+    },
+  },
+  {
+    src: "/images/gallery/puerto-viejo.jpg", alt: "Costa Caribeña · Puerto Viejo", caption: "Costa Caribeña · Puerto Viejo",
+    tag: "LIMÓN", variant: "caribbean",
+    info: {
+      region: "Talamanca, Caribe Sur",
+      type: "Costa · Cultura afrocaribeña",
+      description: "Pueblo de cultura afrocaribeña con playas turquesa, reggae, cocina criolla y arrecifes de coral.",
+      highlights: ["Playa Cocles", "Manzanillo", "Cocina caribeña", "Cacao orgánico"],
+      driveTime: "≈ 4h 30min desde SJO",
+    },
+  },
+  {
+    src: "/images/gallery/rio-celeste.jpg", alt: "Río Celeste", caption: "Río Celeste",
+    tag: "ALAJUELA", variant: "waterfall",
+    info: {
+      region: "Parque Nacional Volcán Tenorio",
+      type: "Catarata · Fenómeno óptico",
+      description: "Río de color celeste por reacción óptica de minerales volcánicos. Catarata de 30m y aguas termales naturales.",
+      highlights: ["Catarata celeste", "Mirador del volcán", "Aguas termales", "Borbollones"],
+      driveTime: "≈ 3h 15min desde SJO",
+    },
+  },
+  {
+    src: "/images/gallery/nicoya.jpg", alt: "Península de Nicoya", caption: "Península de Nicoya",
+    tag: "GUANACASTE", variant: "coast",
+    info: {
+      region: "Península de Nicoya",
+      type: "Zona Azul · Playas remotas",
+      description: "Una de las cinco Zonas Azules del mundo: longevidad excepcional. Playas vírgenes y pueblos costeros tranquilos.",
+      highlights: ["Sámara", "Nosara", "Mal País", "Santa Teresa"],
+      driveTime: "≈ 4h–5h desde SJO",
+    },
+  },
+  {
+    src: "/images/gallery/tarrazu.jpg", alt: "Cafetales · Tarrazú", caption: "Cafetales · Tarrazú",
+    tag: "SAN JOSÉ", variant: "coffee",
+    info: {
+      region: "Los Santos, zona cafetalera",
+      elevation: "1 200–1 900 m s.n.m.",
+      type: "Cafetales · Tours de café",
+      description: "Una de las mejores zonas cafetaleras del mundo. Café SHB de altura, tours en fincas y catación profesional.",
+      highlights: ["Beneficios de café", "Catación", "San Marcos de Tarrazú", "Cerro de la Muerte"],
+      driveTime: "≈ 1h 30min desde SJO",
+    },
+  },
+  {
+    src: "/images/gallery/irazu.jpg", alt: "Volcán Irazú", caption: "Volcán Irazú",
+    tag: "CARTAGO", variant: "volcano",
+    info: {
+      region: "Parque Nacional Volcán Irazú",
+      elevation: "3 432 m s.n.m.",
+      type: "Volcán · Cráter activo",
+      description: "Volcán más alto de Costa Rica. En días claros se ven ambos océanos. Cráter principal con laguna verde.",
+      highlights: ["Cráter principal", "Vista a dos océanos", "Mirador Diego de la Haya", "Páramo de altura"],
+      driveTime: "≈ 1h 30min desde SJO",
+    },
+  },
+  {
+    src: "/images/gallery/drake-bay.jpg", alt: "Bahía Drake · Osa", caption: "Bahía Drake · Osa",
+    tag: "PUNTARENAS", variant: "beach",
+    info: {
+      region: "Península de Osa, Pacífico Sur",
+      type: "Bahía remota · Biodiversidad extrema",
+      description: "Puerta de entrada al Parque Nacional Corcovado, donde se concentra el 2.5% de la biodiversidad mundial.",
+      highlights: ["Corcovado", "Isla del Caño", "Avistamiento de ballenas", "Selva primaria"],
+      driveTime: "≈ 6h desde SJO o vuelo a Drake",
+    },
+  },
+  {
+    src: "/images/gallery/sarapiqui.jpg", alt: "Selva de Sarapiquí · Braulio Carrillo", caption: "Selva de Sarapiquí",
+    tag: "HEREDIA", variant: "forest",
+    info: {
+      region: "Sarapiquí, llanuras del Norte",
+      type: "Río · Selva tropical",
+      description: "Selva primaria adyacente al Parque Braulio Carrillo. Rafting en el río Sarapiquí y estaciones biológicas.",
+      highlights: ["Rafting clase III–IV", "La Selva OTS", "Tirimbina", "Tour de cacao"],
+      driveTime: "≈ 1h 30min desde SJO",
+    },
+  },
 ];
-
-const ratioClass: Record<Photo["ratio"], string> = {
-  square: "aspect-square",
-  tall:   "aspect-[3/4]",
-  wide:   "aspect-[4/3]",
-};
 
 export default function Gallery() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
-  const [open, setOpen] = useState<Photo | null>(null);
+  const [selected, setSelected] = useState<Photo | null>(null);
 
   return (
     <section id="galeria" ref={ref} className="relative py-32">
@@ -67,92 +192,104 @@ export default function Gallery() {
             </h2>
           </div>
           <p className="text-marfil/60 max-w-md">
-            Una muestra de los lugares a los que llevamos pasajeros cada semana,
-            a lo largo y ancho del país. Toque cualquier imagen para ampliarla.
+            Cúpula interactiva con los lugares a donde llevamos pasajeros.
+            Arrastre para explorar. Toque cualquier imagen: zoom + información del lugar.
           </p>
         </motion.div>
 
-        {/* Masonry via CSS columns */}
-        <div className="columns-2 md:columns-3 lg:columns-4 gap-3 lg:gap-4 [column-fill:_balance]">
-          {PHOTOS.map((p, i) => (
-            <motion.button
-              key={p.caption}
-              onClick={() => setOpen(p)}
-              data-cursor="link"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.04 * i }}
-              className={`group relative w-full block mb-3 lg:mb-4 break-inside-avoid overflow-hidden rounded-2xl bg-volcan-50 ${ratioClass[p.ratio]}`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={p.src}
-                alt={p.alt}
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-volcan via-volcan/30 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
-              <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full glass-strong text-[10px] font-mono tracking-widest text-sol">
-                {p.tag}
-              </div>
-              <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
-                <div className="font-display text-marfil text-sm sm:text-base lg:text-lg leading-tight pr-2 text-left">
-                  {p.caption}
-                </div>
-                <div className="w-8 h-8 sm:w-9 sm:h-9 shrink-0 rounded-full glass-strong grid place-items-center text-sol opacity-0 group-hover:opacity-100 transition-opacity">
-                  <ZoomIn className="w-4 h-4" />
-                </div>
-              </div>
-            </motion.button>
-          ))}
-        </div>
-      </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="relative w-full h-[80vh] min-h-[600px] rounded-3xl overflow-hidden glass"
+        >
+          <DomeGallery
+            images={PHOTOS.map((p) => ({ src: p.src, alt: p.alt }))}
+            fit={0.55}
+            grayscale={false}
+            dragSensitivity={18}
+            maxVerticalRotationDeg={10}
+            segments={36}
+            overlayBlurColor="#0A1614"
+            imageBorderRadius="18px"
+            openedImageBorderRadius="22px"
+            openedImageWidth="600px"
+            openedImageHeight="450px"
+            onItemClick={(item) => {
+              const match = PHOTOS.find((p) => p.alt === item.alt || p.src === item.src);
+              if (match) setSelected(match);
+            }}
+            onItemClose={() => setSelected(null)}
+          />
 
-      {/* Lightbox */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setOpen(null)}
-            className="fixed inset-0 z-[100] bg-volcan/95 backdrop-blur-md grid place-items-center p-4 sm:p-8"
-          >
-            <button
-              onClick={() => setOpen(null)}
-              data-cursor="link"
-              className="absolute top-6 right-6 w-11 h-11 rounded-full glass grid place-items-center text-marfil"
-              aria-label="Cerrar"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 240, damping: 24 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-w-5xl w-full"
-            >
-              <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-volcan-50">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={open.src}
-                  alt={open.alt}
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              </div>
-              <div className="mt-4 flex items-end justify-between gap-4">
-                <div>
-                  <div className="text-xs font-mono tracking-widest text-sol mb-1">{open.tag}</div>
-                  <div className="font-display text-2xl text-marfil">{open.caption}</div>
+          {/* Info panel overlay — appears when image opened */}
+          <AnimatePresence>
+            {selected && (
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 40 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="pointer-events-auto absolute top-4 right-4 bottom-4 w-[min(380px,calc(100%-2rem))] z-50 glass-strong rounded-2xl p-6 overflow-y-auto"
+              >
+                <button
+                  onClick={() => setSelected(null)}
+                  aria-label="Cerrar info"
+                  className="absolute top-3 right-3 w-9 h-9 rounded-full bg-marfil/10 hover:bg-marfil/20 grid place-items-center text-marfil transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+
+                <div className="space-y-5 pr-2">
+                  <div>
+                    <div className="text-[10px] font-mono tracking-[0.3em] text-sol mb-2">
+                      {selected.tag} · {selected.info.type.toUpperCase()}
+                    </div>
+                    <h3 className="font-display text-2xl text-marfil leading-tight">
+                      {selected.caption}
+                    </h3>
+                  </div>
+
+                  <div className="space-y-2 pb-4 border-b border-marfil/10">
+                    <div className="flex items-start gap-2 text-sm text-marfil/80">
+                      <MapPin className="w-4 h-4 text-sol shrink-0 mt-0.5" />
+                      <span>{selected.info.region}</span>
+                    </div>
+                    {selected.info.elevation && (
+                      <div className="flex items-start gap-2 text-sm text-marfil/80">
+                        <Mountain className="w-4 h-4 text-sol shrink-0 mt-0.5" />
+                        <span>{selected.info.elevation}</span>
+                      </div>
+                    )}
+                    <div className="text-xs text-marfil/50 pt-1 font-mono">
+                      {selected.info.driveTime}
+                    </div>
+                  </div>
+
+                  <p className="text-marfil/75 text-sm leading-relaxed">
+                    {selected.info.description}
+                  </p>
+
+                  <div>
+                    <div className="text-[10px] font-mono tracking-[0.3em] text-marfil/40 mb-3 inline-flex items-center gap-2">
+                      <Sparkles className="w-3 h-3 text-sol" />
+                      DESTACADOS
+                    </div>
+                    <ul className="space-y-1.5">
+                      {selected.info.highlights.map((h) => (
+                        <li key={h} className="text-sm text-marfil/70 flex items-center gap-2">
+                          <span className="w-1 h-1 rounded-full bg-sol" />
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
     </section>
   );
 }

@@ -9,7 +9,17 @@ import {
   whatsappLink,
   SECTIONS,
 } from "@/lib/utils";
-import { ArrowUpRight, Instagram, Facebook } from "lucide-react";
+import { ArrowUpRight, Instagram, Facebook, Plane, Building2, Hotel, Briefcase, Globe, Award } from "lucide-react";
+import LogoLoop, { type LogoItem } from "./LogoLoop";
+
+const PARTNER_BADGES: LogoItem[] = [
+  { node: <span className="inline-flex items-center gap-2 font-display italic text-marfil/40 text-xl"><Award className="w-5 h-5 text-sol" />ICT certificado</span>, title: "ICT" },
+  { node: <span className="inline-flex items-center gap-2 font-display italic text-marfil/40 text-xl"><Plane className="w-5 h-5 text-sol" />SJO · LIR</span>, title: "Aeropuertos" },
+  { node: <span className="inline-flex items-center gap-2 font-display italic text-marfil/40 text-xl"><Hotel className="w-5 h-5 text-sol" />Hoteles aliados</span>, title: "Hoteles" },
+  { node: <span className="inline-flex items-center gap-2 font-display italic text-marfil/40 text-xl"><Briefcase className="w-5 h-5 text-sol" />Cuenta empresa</span>, title: "Cuenta empresa" },
+  { node: <span className="inline-flex items-center gap-2 font-display italic text-marfil/40 text-xl"><Globe className="w-5 h-5 text-sol" />Operadores DMC</span>, title: "DMC" },
+  { node: <span className="inline-flex items-center gap-2 font-display italic text-marfil/40 text-xl"><Building2 className="w-5 h-5 text-sol" />Corporativo</span>, title: "Corporativo" },
+];
 
 export default function Footer() {
   return (
@@ -34,6 +44,24 @@ export default function Footer() {
             COSTA RICA · DESDE 2013
           </p>
         </motion.div>
+      </div>
+
+      {/* Partner loop */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-14">
+        <div className="text-[10px] font-mono tracking-[0.4em] text-marfil/30 text-center mb-5">
+          OPERADORES · HOTELES · EMPRESAS
+        </div>
+        <LogoLoop
+          logos={PARTNER_BADGES}
+          speed={60}
+          direction="left"
+          logoHeight={36}
+          gap={56}
+          pauseOnHover
+          fadeOut
+          fadeOutColor="#0A1614"
+          ariaLabel="Socios y certificaciones"
+        />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

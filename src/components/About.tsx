@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { Truck, ShieldCheck, Clock, BarChart3 } from "lucide-react";
 import { LogoMark } from "./LogoMark";
 import FloatingShapes from "./FloatingShapes";
+import ScrollReveal from "./ScrollReveal";
 
 const PILLARS = [
   {
@@ -82,11 +83,14 @@ export default function About() {
             >
               <div className="absolute top-0 right-0 w-40 h-40 -mt-20 -mr-20 rounded-full bg-sol/20 blur-2xl" />
               <div className="text-xs font-mono tracking-widest text-sol mb-3">MISIÓN</div>
-              <p className="font-display text-2xl sm:text-3xl leading-snug text-marfil text-balance">
-                Proveer transporte confiable y profesional para quienes
-                coordinan traslados. Nuestro trabajo es hacer que el suyo
-                funcione sin fallas.
-              </p>
+              <ScrollReveal
+                baseOpacity={0.1}
+                enableBlur
+                blurStrength={6}
+                textClassName="font-display text-2xl sm:text-3xl leading-snug text-marfil text-balance"
+              >
+                Proveer transporte confiable y profesional para quienes coordinan traslados. Nuestro trabajo es hacer que el suyo funcione sin fallas.
+              </ScrollReveal>
             </motion.div>
 
             {/* Vision card */}

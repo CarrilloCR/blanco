@@ -13,11 +13,19 @@ import Particles from "./Particles";
 import { LogoMark } from "./LogoMark";
 import { whatsappLink } from "@/lib/utils";
 import FloatingShapes from "./FloatingShapes";
+import Aurora from "./Aurora";
+import SplitText from "./SplitText";
+import GradientText from "./GradientText";
+import BlurText from "./BlurText";
+import ShinyText from "./ShinyText";
+import CountUp from "./CountUp";
+import StarBorder from "./StarBorder";
 
-const STATS = [
-  { value: "12+", label: "años de operación" },
+type Stat = { value: string; label: string; to?: number; suffix?: string; decimals?: number };
+const STATS: Stat[] = [
+  { value: "12+", label: "años de operación", to: 12, suffix: "+" },
   { value: "7/7", label: "provincias cubiertas" },
-  { value: "99.4%", label: "puntualidad garantizada" },
+  { value: "99%", label: "puntualidad garantizada", to: 99, suffix: "%" },
   { value: "24/7", label: "disponibilidad" },
 ];
 
@@ -70,8 +78,13 @@ export default function Hero() {
       id="inicio"
       className="relative min-h-screen w-full overflow-hidden flex items-center pt-28 pb-24"
     >
+      {/* Aurora background */}
+      <div className="absolute inset-0 opacity-60 pointer-events-none">
+        <Aurora colorStops={["#1B5E45", "#F4B942", "#0A1614"]} amplitude={0.8} blend={0.5} speed={0.6} />
+      </div>
+
       {/* Ambient gradients */}
-      <div className="absolute inset-0 bg-volcan">
+      <div className="absolute inset-0 bg-volcan/40">
         <motion.div
           style={{ x: px1, y: py1 }}
           className="absolute -top-40 -left-40 w-[60vw] h-[60vw] rounded-full blur-3xl opacity-40"
@@ -101,44 +114,43 @@ export default function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-mono tracking-widest text-arena"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-mono tracking-widest"
             >
               <span className="relative flex w-2 h-2">
                 <span className="absolute inset-0 rounded-full bg-sol animate-ping opacity-60" />
                 <span className="relative rounded-full bg-sol w-2 h-2" />
               </span>
-              TRANSPORTE PRIVADO · COSTA RICA · DESDE 2013
+              <ShinyText text="TRANSPORTE PRIVADO · COSTA RICA · DESDE 2013" speed={5} color="rgb(212, 165, 116)" shineColor="rgb(244, 185, 66)" />
             </motion.div>
 
             <h1 className="font-display text-[clamp(2.6rem,7vw,5.6rem)] leading-[0.96] tracking-tight text-balance">
-              <motion.span
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              <SplitText
+                text="Su operación"
+                tag="span"
                 className="block text-marfil"
-              >
-                Su operación
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="block italic font-light gradient-text"
+                delay={40}
+                duration={0.8}
+                ease="power3.out"
+                splitType="chars"
+                from={{ opacity: 0, y: 40 }}
+                to={{ opacity: 1, y: 0 }}
+              />
+              <GradientText
+                colors={["#F4B942", "#D4A574", "#F4B942"]}
+                animationSpeed={6}
+                className="block italic font-light"
               >
                 en movimiento.
-              </motion.span>
+              </GradientText>
             </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+            <BlurText
+              text="Ponemos nuestros microbuses y conductores a disposición de operadores turísticos, empresas y coordinadores de logística. Usted organiza el viaje, nosotros lo ejecutamos."
+              animateBy="words"
+              direction="bottom"
+              delay={40}
               className="text-marfil/70 text-lg sm:text-xl max-w-xl leading-relaxed"
-            >
-              Ponemos nuestros microbuses y conductores a disposición de
-              operadores turísticos, empresas y coordinadores de logística.
-              Usted organiza el viaje, nosotros lo ejecutamos.
-            </motion.p>
+            />
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -146,16 +158,22 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.65 }}
               className="flex flex-wrap items-center gap-3"
             >
-              <a
+              <StarBorder
+                as="a"
                 href={whatsappLink("Hola Trans Blanco, necesito cotizar transporte.")}
                 target="_blank"
                 rel="noreferrer"
                 data-cursor="link"
-                className="btn-primary shine"
+                color="#F4B942"
+                speed="6s"
+                thickness={1}
+                className="!inline-flex"
               >
-                Solicitar cotización
-                <ArrowRight className="w-4 h-4" />
-              </a>
+                <span className="inline-flex items-center gap-2">
+                  Solicitar cotización
+                  <ArrowRight className="w-4 h-4" />
+                </span>
+              </StarBorder>
               <a href="#servicios" data-cursor="link" className="btn-ghost">
                 <Sparkles className="w-4 h-4 text-sol" />
                 Ver servicios
@@ -186,7 +204,16 @@ export default function Hero() {
             >
               {STATS.map((s) => (
                 <div key={s.label}>
-                  <div className="font-display text-2xl text-sol">{s.value}</div>
+                  <div className="font-display text-2xl text-sol">
+                    {s.to != null ? (
+                      <>
+                        <CountUp to={s.to} duration={1.6} />
+                        {s.suffix}
+                      </>
+                    ) : (
+                      s.value
+                    )}
+                  </div>
                   <div className="text-xs text-marfil/50 mt-0.5 tracking-wide">{s.label}</div>
                 </div>
               ))}

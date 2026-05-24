@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import Stepper, { Step } from "./Stepper";
 
 const STEPS = [
   {
@@ -32,7 +33,7 @@ export default function Process() {
 
   return (
     <section ref={ref} className="relative py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -49,34 +50,34 @@ export default function Process() {
           </h2>
         </motion.div>
 
-        <div className="relative">
-          {/* Connecting line */}
-          <div className="hidden lg:block absolute top-12 left-12 right-12 h-px bg-gradient-to-r from-transparent via-sol/30 to-transparent" />
-
-          <div className="grid lg:grid-cols-4 gap-6 lg:gap-4">
-            {STEPS.map((s, i) => (
-              <motion.div
-                key={s.n}
-                initial={{ opacity: 0, y: 24 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.1 + i * 0.12 }}
-                className="relative"
-              >
-                <div className="relative z-10 w-24 h-24 mx-auto rounded-full glass-strong grid place-items-center mb-5">
-                  <span className="font-display text-3xl gradient-text">
-                    {s.n}
-                  </span>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="glass rounded-3xl p-2 sm:p-4"
+        >
+          <Stepper
+            initialStep={1}
+            backButtonText="Anterior"
+            nextButtonText="Siguiente"
+            stepCircleContainerClassName="!bg-transparent !border-0"
+            contentClassName="!px-6 sm:!px-10 !py-10"
+          >
+            {STEPS.map((s) => (
+              <Step key={s.n}>
+                <div className="text-center space-y-5">
+                  <div className="w-20 h-20 mx-auto rounded-full glass-strong grid place-items-center">
+                    <span className="font-display text-2xl gradient-text">{s.n}</span>
+                  </div>
+                  <h3 className="font-display text-3xl text-marfil">{s.title}</h3>
+                  <p className="text-marfil/60 leading-relaxed max-w-md mx-auto">
+                    {s.body}
+                  </p>
                 </div>
-                <h3 className="font-display text-xl text-marfil text-center mb-2">
-                  {s.title}
-                </h3>
-                <p className="text-marfil/60 text-sm text-center leading-relaxed max-w-[240px] mx-auto">
-                  {s.body}
-                </p>
-              </motion.div>
+              </Step>
             ))}
-          </div>
-        </div>
+          </Stepper>
+        </motion.div>
       </div>
     </section>
   );

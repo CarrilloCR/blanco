@@ -4,6 +4,9 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { MapPin, ArrowUpRight, ExternalLink } from "lucide-react";
 import { whatsappLink } from "@/lib/utils";
+import DotGrid from "./DotGrid";
+import Magnet from "./Magnet";
+import ClickSpark from "./ClickSpark";
 
 type Province = {
   id: string;
@@ -91,11 +94,23 @@ export default function CostaRicaMap() {
 
   return (
     <section id="rutas" ref={ref} className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <DotGrid
+          dotSize={3}
+          gap={28}
+          baseColor="#1B5E45"
+          activeColor="#F4B942"
+          proximity={120}
+          shockRadius={180}
+          shockStrength={4}
+        />
+      </div>
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 right-0 w-[40vw] h-[40vw] rounded-full bg-sol/10 blur-3xl opacity-50" />
         <div className="absolute bottom-0 left-0 w-[30vw] h-[30vw] rounded-full bg-selva/10 blur-3xl opacity-40" />
       </div>
 
+      <ClickSpark sparkColor="#F4B942" sparkSize={10} sparkRadius={20} sparkCount={10} duration={500} extraScale={1.2}>
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -124,18 +139,19 @@ export default function CostaRicaMap() {
           {/* Province selector pills – mobile/tablet: top row */}
           <div className="lg:col-span-12 flex flex-wrap gap-2 lg:hidden">
             {PROVINCES.map((p) => (
-              <button
-                key={p.id}
-                onClick={() => setActive(p.id)}
-                data-cursor="link"
-                className={`px-3 py-1.5 rounded-full text-xs transition-all border ${
-                  active === p.id
-                    ? "bg-sol text-volcan border-sol"
-                    : "bg-marfil/5 text-marfil/60 border-marfil/10 hover:border-marfil/30"
-                }`}
-              >
-                {p.name}
-              </button>
+              <Magnet key={p.id} padding={40} magnetStrength={4}>
+                <button
+                  onClick={() => setActive(p.id)}
+                  data-cursor="link"
+                  className={`px-3 py-1.5 rounded-full text-xs transition-all border ${
+                    active === p.id
+                      ? "bg-sol text-volcan border-sol"
+                      : "bg-marfil/5 text-marfil/60 border-marfil/10 hover:border-marfil/30"
+                  }`}
+                >
+                  {p.name}
+                </button>
+              </Magnet>
             ))}
           </div>
 
@@ -245,6 +261,7 @@ export default function CostaRicaMap() {
           </motion.div>
         </div>
       </div>
+      </ClickSpark>
     </section>
   );
 }

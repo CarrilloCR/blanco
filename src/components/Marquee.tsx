@@ -1,40 +1,23 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import ScrollVelocity from "./ScrollVelocity";
 
-const PHRASES = [
-  "Sin contrato mínimo",
-  "Factura electrónica",
-  "Cobertura nacional",
-  "Conductor certificado",
-  "Disponibilidad 24/7",
-  "SLA puntualidad",
-];
+const PHRASES_A = "Sin contrato mínimo ✦ Factura electrónica ✦ Cobertura nacional ✦ Conductor certificado ✦ Disponibilidad 24/7 ✦ SLA puntualidad ✦";
+const PHRASES_B = "Transfer aeropuerto ✦ Corporativo ✦ Operadores turísticos ✦ Eventos y bodas ✦ Por horas ✦ Rutas contratadas ✦";
 
 export default function Marquee() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const x1 = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
-  const x2 = useTransform(scrollYProgress, [0, 1], ["-30%", "0%"]);
-
   return (
-    <section ref={ref} className="relative py-20 overflow-hidden">
+    <section className="relative py-20 overflow-hidden">
       <div className="divider-leaf mb-10" />
-      <motion.div style={{ x: x1 }} className="flex gap-12 whitespace-nowrap mb-3">
-        {[...PHRASES, ...PHRASES, ...PHRASES].map((p, i) => (
-          <span key={i} className="font-display text-7xl sm:text-9xl leading-none italic text-marfil/[0.06]">
-            {p} ✦
-          </span>
-        ))}
-      </motion.div>
-      <motion.div style={{ x: x2 }} className="flex gap-12 whitespace-nowrap">
-        {[...PHRASES, ...PHRASES, ...PHRASES].reverse().map((p, i) => (
-          <span key={i} className="font-display text-7xl sm:text-9xl leading-none text-sol/[0.08]">
-            {p} ✦
-          </span>
-        ))}
-      </motion.div>
+      <ScrollVelocity
+        texts={[PHRASES_A, PHRASES_B]}
+        velocity={80}
+        numCopies={4}
+        damping={50}
+        stiffness={400}
+        className="font-display italic leading-none text-marfil/[0.08]"
+        parallaxClassName="py-2"
+      />
       <div className="divider-leaf mt-10" />
     </section>
   );
