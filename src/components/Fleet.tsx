@@ -20,7 +20,7 @@ const FLEET: Vehicle[] = [
     name: "Hyundai H1",
     model: "Microbús Premium",
     capacity: "Hasta 9 pasajeros",
-    image: "https://picsum.photos/seed/microbus-h1/1400/900",
+    image: "/images/fleet/h1.jpg",
     features: [
       { icon: Snowflake, label: "Aire acondicionado" },
       { icon: Wifi,      label: "Wi-Fi 4G" },
@@ -37,7 +37,7 @@ const FLEET: Vehicle[] = [
     name: "Toyota Hiace",
     model: "Microbús Estándar",
     capacity: "Hasta 13 pasajeros",
-    image: "https://picsum.photos/seed/hiace-van/1400/900",
+    image: "/images/fleet/hiace.jpg",
     features: [
       { icon: Snowflake,   label: "Aire acondicionado" },
       { icon: ShieldCheck, label: "Cinturones 3 puntos" },
@@ -54,7 +54,7 @@ const FLEET: Vehicle[] = [
     name: "Mercedes Sprinter",
     model: "Van Ejecutiva",
     capacity: "Hasta 19 pasajeros",
-    image: "https://picsum.photos/seed/sprinter-executive/1400/900",
+    image: "/images/fleet/sprinter.jpg",
     features: [
       { icon: Snowflake,   label: "Climatización dual" },
       { icon: Wifi,        label: "Wi-Fi" },

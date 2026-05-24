@@ -24,18 +24,19 @@ export default function SmartImage({
 }: SmartImageProps) {
   const [failed, setFailed] = useState(!src);
   const [loaded, setLoaded] = useState(false);
-  const loadedRef = useRef(false);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     if (!src) { setFailed(true); return; }
     setFailed(false);
-    setLoaded(false);
-    loadedRef.current = false;
-    // Timeout — if image hasn't loaded in 4s, fall back to illustration
-    const t = setTimeout(() => {
-      if (!loadedRef.current) setFailed(true);
-    }, 4000);
-    return () => clearTimeout(t);
+    // If image was cached, browser fires load before our handler is attached.
+    // Check img.complete on mount/src-change to catch that case.
+    const el = imgRef.current;
+    if (el && el.complete && el.naturalWidth > 0) {
+      setLoaded(true);
+    } else {
+      setLoaded(false);
+    }
   }, [src]);
 
   return (
@@ -46,10 +47,11 @@ export default function SmartImage({
 
       {!failed && src && (
         <img
+          ref={imgRef}
           src={src}
           alt={alt}
           className="absolute inset-0 w-full h-full object-cover"
-          onLoad={() => { setLoaded(true); loadedRef.current = true; }}
+          onLoad={() => setLoaded(true)}
           onError={() => setFailed(true)}
           loading="lazy"
         />
