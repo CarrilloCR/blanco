@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "cc-dev-tools": {
+      "source": {
+        "source": "github",
+        "repo": "lucklyric/cc-dev-tools"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "nanobanana@cc-dev-tools": true
+  }
+}
