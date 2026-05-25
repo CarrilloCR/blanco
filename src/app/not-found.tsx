@@ -19,13 +19,9 @@ export default function NotFound() {
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="relative z-10 max-w-2xl mx-auto text-center"
       >
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-          className="mx-auto mb-8 w-32 h-32 sm:w-40 sm:h-40"
-        >
+        <div className="mx-auto mb-8 w-32 h-32 sm:w-40 sm:h-40">
           <LogoMark size={160} className="w-full h-full" />
-        </motion.div>
+        </div>
 
         <div className="font-mono text-xs tracking-[0.4em] text-arena mb-3">
           ERROR · 404 · RUTA NO ENCONTRADA

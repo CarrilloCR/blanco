@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Moon, Sun } from "lucide-react";
 
 const PALETTE_DARK = {
   label: "Oscuro",
@@ -75,16 +76,18 @@ export default function ThemeToggle() {
         aria-label="Cambiar paleta de colores"
         title="Cambiar tema"
       >
-        <motion.div
-          key={tropical ? "tropical" : "dark"}
-          initial={{ scale: 0, rotate: -90 }}
-          animate={{ scale: 1, rotate: 0 }}
-          exit={{ scale: 0, rotate: 90 }}
-          transition={{ duration: 0.3, type: "spring", stiffness: 260 }}
-          className="text-xl leading-none select-none"
-        >
-          {tropical ? "🌿" : "🌺"}
-        </motion.div>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={tropical ? "tropical" : "dark"}
+            initial={{ scale: 0, rotate: -90, opacity: 0 }}
+            animate={{ scale: 1, rotate: 0, opacity: 1 }}
+            exit={{ scale: 0, rotate: 90, opacity: 0 }}
+            transition={{ duration: 0.3, type: "spring", stiffness: 260 }}
+            className="text-sol"
+          >
+            {tropical ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </motion.div>
+        </AnimatePresence>
       </motion.button>
     </div>
   );

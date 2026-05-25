@@ -68,14 +68,13 @@ export default function CursorEffect() {
         }}
       >
         <motion.div
-          animate={{
-            width: size,
-            height: size,
-            borderColor:
-              hovering === "link" ? "rgba(244,185,66,0.9)" : "rgba(248,245,238,0.7)",
-          }}
+          animate={{ width: size, height: size }}
           transition={{ duration: 0.18 }}
-          className="rounded-full border"
+          className={`cursor-ring rounded-full border ${
+            hovering === "link"
+              ? "border-sol"
+              : "border-marfil/70"
+          }`}
         />
       </motion.div>
 
@@ -91,10 +90,9 @@ export default function CursorEffect() {
         }}
       >
         <div
-          className="w-1.5 h-1.5 rounded-full"
-          style={{
-            background: hovering === "link" ? "#F4B942" : "#F8F5EE",
-          }}
+          className={`cursor-dot w-1.5 h-1.5 rounded-full ${
+            hovering === "link" ? "bg-sol" : "bg-marfil"
+          }`}
         />
       </motion.div>
     </>

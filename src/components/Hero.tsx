@@ -76,15 +76,10 @@ export default function Hero() {
     <section
       ref={ref}
       id="inicio"
-      className="relative min-h-screen w-full overflow-hidden flex items-center pt-28 pb-24"
+      className="relative min-h-screen w-full overflow-hidden flex items-center pt-24 sm:pt-28 pb-32 sm:pb-24"
     >
-      {/* Aurora background */}
-      <div className="absolute inset-0 opacity-60 pointer-events-none">
-        <Aurora colorStops={["#1B5E45", "#F4B942", "#0A1614"]} amplitude={0.8} blend={0.5} speed={0.6} />
-      </div>
-
       {/* Ambient gradients */}
-      <div className="absolute inset-0 bg-volcan/40">
+      <div className="absolute inset-0 bg-volcan/10">
         <motion.div
           style={{ x: px1, y: py1 }}
           className="absolute -top-40 -left-40 w-[60vw] h-[60vw] rounded-full blur-3xl opacity-40"
@@ -100,7 +95,12 @@ export default function Hero() {
       </div>
 
       <div className="absolute inset-0 bg-grid bg-grid-fade opacity-50" />
-      <Particles density={70} color="#F4B942" speed={0.25} />
+      <div className="hidden sm:block">
+        <Particles density={70} color="#F4B942" speed={0.25} />
+      </div>
+      <div className="sm:hidden">
+        <Particles density={28} color="#F4B942" speed={0.2} />
+      </div>
       <div className="absolute inset-0 noise-overlay pointer-events-none" />
 
       <motion.div
@@ -120,7 +120,7 @@ export default function Hero() {
                 <span className="absolute inset-0 rounded-full bg-sol animate-ping opacity-60" />
                 <span className="relative rounded-full bg-sol w-2 h-2" />
               </span>
-              <ShinyText text="TRANSPORTE PRIVADO · COSTA RICA · DESDE 2013" speed={5} color="rgb(212, 165, 116)" shineColor="rgb(244, 185, 66)" />
+              <ShinyText text="TRANSPORTE PRIVADO · COSTA RICA · DESDE 2013" speed={5} color="rgb(var(--color-arena))" shineColor="rgb(var(--color-sol))" />
             </motion.div>
 
             <h1 className="font-display text-[clamp(2.6rem,7vw,5.6rem)] leading-[0.96] tracking-tight text-balance">
@@ -220,10 +220,10 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — Logo grande, sin giro */}
+          {/* RIGHT — Logo grande, solo desktop */}
           <motion.div
             style={{ y: wheelY }}
-            className="lg:col-span-5 relative h-[600px] sm:h-[760px] lg:h-[880px] flex items-center justify-center"
+            className="hidden lg:flex lg:col-span-5 relative h-[700px] xl:h-[820px] items-center justify-center"
           >
             <motion.div
               style={{ x: px2, y: py2 }}
@@ -235,9 +235,8 @@ export default function Hero() {
                 src="/logo-tb.png"
                 alt="Trans Blanco Costa Rica"
                 style={{
-                  width: "min(1600px, 130vw)",
+                  width: "min(900px, 55vw)",
                   height: "auto",
-                  maxHeight: "none",
                   objectFit: "contain",
                   display: "block",
                 }}
@@ -249,12 +248,12 @@ export default function Hero() {
       </motion.div>
 
       {/* Marquee bottom */}
-      <div className="absolute bottom-10 inset-x-0 z-10 fade-x">
+      <div className="absolute bottom-6 sm:bottom-10 inset-x-0 z-10 fade-x">
         <div className="marquee-track">
           {[...SERVICIOS_MARQUEE, ...SERVICIOS_MARQUEE].map((d, i) => (
             <div
               key={`${d}-${i}`}
-              className="flex items-center gap-6 px-6 text-xl sm:text-2xl font-display italic text-marfil/25 whitespace-nowrap"
+              className="flex items-center gap-4 sm:gap-6 px-4 sm:px-6 text-base sm:text-2xl font-display italic text-marfil/25 whitespace-nowrap"
             >
               <span>{d}</span>
               <span className="text-sol/35">✦</span>

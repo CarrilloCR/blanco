@@ -129,13 +129,13 @@ html {
 }
 
 body {
-  background: rgb(var(--color-volcan));
+  background: transparent;
   color: rgb(var(--color-marfil));
   overflow-x: hidden;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background 0.4s ease, color 0.4s ease;
+  transition: color 0.4s ease;
 }
 
 ::selection {
@@ -321,3 +321,36 @@ body {
 }
 
 canvas.three-canvas { outline: none; touch-action: none; }
+
+/* =====================================================
+   THEME-ONLY VISIBILITY HELPERS
+   ===================================================== */
+.dark-only { display: block; }
+.tropical-only { display: none; }
+.theme-tropical .dark-only { display: none; }
+.theme-tropical .tropical-only { display: block; }
+
+/* Tropical-aware text contrast helpers */
+.theme-tropical .text-marfil\/40 { color: rgb(var(--color-marfil) / 0.55); }
+.theme-tropical .text-marfil\/30 { color: rgb(var(--color-marfil) / 0.5); }
+.theme-tropical .text-marfil\/50 { color: rgb(var(--color-marfil) / 0.65); }
+.theme-tropical .text-marfil\/60 { color: rgb(var(--color-marfil) / 0.72); }
+.theme-tropical .text-marfil\/70 { color: rgb(var(--color-marfil) / 0.8); }
+.theme-tropical .text-marfil\/80 { color: rgb(var(--color-marfil) / 0.88); }
+
+/* Glass strong in tropical = whitish translucent */
+.theme-tropical .glass-strong {
+  background: rgb(var(--color-volcan) / 0.78);
+  border-color: rgb(var(--color-marfil) / 0.12);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 0.06);
+}
+
+/* Tropical custom cursor color */
+.theme-tropical .cursor-ring { border-color: rgb(var(--color-selva)) !important; }
+.theme-tropical .cursor-dot { background: rgb(var(--color-selva)) !important; }
+
+/* Navbar pill hover — theme aware */
+.nav-hover-fill { background: rgb(var(--color-sol)); }
+.nav-hover-text { color: rgb(10 22 20); }
+.theme-tropical .nav-hover-fill { background: rgb(var(--color-selva)); }
+.theme-tropical .nav-hover-text { color: rgb(252 255 250); }

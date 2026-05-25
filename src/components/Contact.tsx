@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { MessageCircle, Phone, Mail, MapPin, Send, Loader2 } from "lucide-react";
 import { whatsappLink, PHONE_DISPLAY, PHONE_TEL, EMAIL } from "@/lib/utils";
 import FloatingShapes from "./FloatingShapes";
+import SplitText from "./SplitText";
 
 const initialState = {
   name: "",
@@ -70,7 +71,7 @@ export default function Contact() {
       title: "Teléfono",
       value: PHONE_DISPLAY,
       desc: "Llamadas y solicitudes de voz",
-      href: `tel:${PHONE_TEL}`,
+      href: whatsappLink(),
       cta: "Llamar ahora",
       accent: "sol",
     },
@@ -104,8 +105,8 @@ export default function Contact() {
             CONTACTO · 08
           </div>
           <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight">
-            Solicite su
-            <span className="italic block gradient-text">próximo servicio.</span>
+            <SplitText text="Solicite su" tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
+            <SplitText text="próximo servicio." tag="span" className="block italic gradient-text" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
           </h2>
         </motion.div>
 
@@ -156,7 +157,7 @@ export default function Contact() {
               className="glass rounded-2xl p-5 flex items-center gap-3 text-sm text-marfil/70"
             >
               <MapPin className="w-4 h-4 text-sol shrink-0" />
-              <span>San Ramón, Alajuela · Costa Rica · Cobertura nacional</span>
+              <span>San José · Costa Rica · Cobertura nacional</span>
             </motion.div>
           </div>
 
@@ -170,7 +171,7 @@ export default function Contact() {
           >
             <div className="grid sm:grid-cols-2 gap-4">
               <Field label="Nombre *"             value={form.name}        onChange={(v) => set("name", v)}        placeholder="Su nombre o empresa" />
-              <Field label="Teléfono / WhatsApp"  value={form.phone}       onChange={(v) => set("phone", v)}       placeholder="+506 8888-7777" type="tel" />
+              <Field label="Teléfono / WhatsApp"  value={form.phone}       onChange={(v) => set("phone", v)}       placeholder="+506 8356-6938" type="tel" />
               <Field label="Correo"               value={form.email}       onChange={(v) => set("email", v)}       placeholder="usted@empresa.com" type="email" />
               <Field label="Fecha del servicio"   value={form.date}        onChange={(v) => set("date", v)}        type="date" />
               <Field label="Origen"               value={form.origin}      onChange={(v) => set("origin", v)}      placeholder="Ej: Aeropuerto SJO" />

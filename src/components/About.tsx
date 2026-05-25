@@ -3,9 +3,10 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Truck, ShieldCheck, Clock, BarChart3 } from "lucide-react";
-import { LogoMark } from "./LogoMark";
 import FloatingShapes from "./FloatingShapes";
 import ScrollReveal from "./ScrollReveal";
+import SplitText from "./SplitText";
+import BlurText from "./BlurText";
 
 const PILLARS = [
   {
@@ -16,12 +17,12 @@ const PILLARS = [
   {
     icon: ShieldCheck,
     title: "Conductores certificados",
-    body: "Licencia A3 vigente, revisión técnica al día y capacitación continua en atención al cliente.",
+    body: "Revisión técnica al día y capacitación continua en atención al cliente.",
   },
   {
     icon: Clock,
     title: "Cumplimiento de horarios",
-    body: "99.4% de puntualidad real en ruta. Sabemos que su operación depende de que lleguemos a tiempo.",
+    body: "99.9% de puntualidad real en ruta. Sabemos que su operación depende de que lleguemos a tiempo.",
   },
   {
     icon: BarChart3,
@@ -53,21 +54,50 @@ export default function About() {
                 NOSOTROS · 02
               </div>
               <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight">
-                El transporte
-                <span className="block italic gradient-emerald">que coordina</span>
-                <span className="block">con usted.</span>
+                <SplitText
+                  text="El transporte"
+                  tag="span"
+                  className="block"
+                  delay={40}
+                  duration={0.8}
+                  ease="power3.out"
+                  splitType="chars"
+                  from={{ opacity: 0, y: 40 }}
+                  to={{ opacity: 1, y: 0 }}
+                />
+                <SplitText
+                  text="que coordina"
+                  tag="span"
+                  className="block italic gradient-emerald"
+                  delay={40}
+                  duration={0.8}
+                  ease="power3.out"
+                  splitType="chars"
+                  from={{ opacity: 0, y: 40 }}
+                  to={{ opacity: 1, y: 0 }}
+                />
+                <SplitText
+                  text="con usted."
+                  tag="span"
+                  className="block"
+                  delay={40}
+                  duration={0.8}
+                  ease="power3.out"
+                  splitType="chars"
+                  from={{ opacity: 0, y: 40 }}
+                  to={{ opacity: 1, y: 0 }}
+                />
               </h2>
-              <p className="text-marfil/70 text-lg leading-relaxed max-w-md">
-                Trans Blanco no vende viajes ni tours. Somos el aliado operativo
-                de quienes organizan traslados: agencias, empresas, event
-                planners y coordinadores de logística.
-              </p>
+              <BlurText
+                text="Trans Blanco no vende viajes ni tours. Somos el aliado operativo de quienes organizan traslados: agencias, empresas, event planners y coordinadores de logística."
+                animateBy="words"
+                direction="bottom"
+                delay={40}
+                className="text-marfil/70 text-lg leading-relaxed max-w-md"
+              />
 
-              <div className="flex items-center gap-3 pt-2">
-                <LogoMark size={48} spin />
-                <div className="text-marfil/40 text-xs font-mono tracking-widest">
-                  TRANS BLANCO · TRANSPORTE PRIVADO C.R.
-                </div>
+              <div className="pt-2 text-marfil/40 text-xs font-mono tracking-widest">
+                TRANS BLANCO · TRANSPORTE PRIVADO C.R.
               </div>
             </motion.div>
           </div>
@@ -109,21 +139,39 @@ export default function About() {
             </motion.div>
 
             {/* Pillars grid */}
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-4 [perspective:1200px]">
               {PILLARS.map((p, i) => (
                 <motion.div
                   key={p.title}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.35 + i * 0.08 }}
-                  whileHover={{ y: -4 }}
-                  className="group glass rounded-2xl p-6 hover:border-sol/30 transition-colors duration-300"
+                  initial={{ opacity: 0, y: 32, rotateX: -8 }}
+                  animate={inView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+                  transition={{ duration: 0.7, delay: 0.35 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -8, rotateX: 4, rotateY: -3, scale: 1.02 }}
+                  style={{ transformStyle: "preserve-3d" }}
+                  className="group relative glass rounded-2xl p-6 overflow-hidden transition-colors duration-500 hover:border-sol/40 cursor-default"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-sol/10 grid place-items-center text-sol mb-4 group-hover:bg-sol/20 transition-colors">
-                    <p.icon className="w-5 h-5" />
+                  {/* Animated gradient sheen on hover */}
+                  <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="absolute -top-1/2 -right-1/2 w-full h-full rounded-full bg-sol/15 blur-3xl" />
                   </div>
-                  <h3 className="font-display text-lg text-marfil mb-1.5">{p.title}</h3>
-                  <p className="text-marfil/60 text-sm leading-relaxed">{p.body}</p>
+                  {/* Corner accent */}
+                  <div className="pointer-events-none absolute top-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-sol animate-pulse" />
+                  </div>
+                  {/* Icon with rotate + scale */}
+                  <motion.div
+                    whileHover={{ rotate: -8, scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                    className="relative w-11 h-11 rounded-xl bg-sol/10 grid place-items-center text-sol mb-4 group-hover:bg-sol/25 group-hover:shadow-[0_0_24px_-4px_rgb(244_185_66_/_0.55)] transition-all duration-300 border border-sol/15 group-hover:border-sol/40"
+                  >
+                    <p.icon className="w-5 h-5" />
+                  </motion.div>
+                  <h3 className="relative font-display text-lg text-marfil mb-1.5 group-hover:text-sol transition-colors">
+                    {p.title}
+                  </h3>
+                  <p className="relative text-marfil/60 text-sm leading-relaxed">{p.body}</p>
+                  {/* Bottom shine line */}
+                  <div className="pointer-events-none absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-sol/60 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </motion.div>
               ))}
             </div>

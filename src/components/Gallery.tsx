@@ -5,6 +5,8 @@ import { useRef, useState } from "react";
 import { MapPin, Mountain, Sparkles, X } from "lucide-react";
 import FloatingShapes from "./FloatingShapes";
 import DomeGallery from "./DomeGallery";
+import SplitText from "./SplitText";
+import BlurText from "./BlurText";
 
 type Variant =
   | "volcano" | "beach" | "forest" | "sunset" | "river"
@@ -171,7 +173,7 @@ export default function Gallery() {
   const [selected, setSelected] = useState<Photo | null>(null);
 
   return (
-    <section id="galeria" ref={ref} className="relative py-32">
+    <section id="galeria" ref={ref} className="relative py-32 overflow-hidden">
       <FloatingShapes variant="gallery" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -187,14 +189,17 @@ export default function Gallery() {
               GALERÍA · 06
             </div>
             <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight">
-              Destinos que
-              <span className="italic gradient-text"> conectamos.</span>
+              <SplitText text="Destinos que" tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
+              <SplitText text="conectamos." tag="span" className="block italic gradient-text" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
             </h2>
           </div>
-          <p className="text-marfil/60 max-w-md">
-            Cúpula interactiva con los lugares a donde llevamos pasajeros.
-            Arrastre para explorar. Toque cualquier imagen: zoom + información del lugar.
-          </p>
+          <BlurText
+            text="Cúpula interactiva con los lugares a donde llevamos pasajeros. Arrastre para explorar. Toque cualquier imagen: zoom + información del lugar."
+            animateBy="words"
+            direction="bottom"
+            delay={35}
+            className="text-marfil/60 max-w-md"
+          />
         </motion.div>
 
         <motion.div
@@ -203,6 +208,11 @@ export default function Gallery() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative w-full h-[80vh] min-h-[600px] rounded-3xl overflow-hidden glass"
         >
+          <motion.div
+            animate={{ x: selected ? -210 : 0 }}
+            transition={{ type: "spring", stiffness: 180, damping: 24 }}
+            className="absolute inset-0"
+          >
           <DomeGallery
             images={PHOTOS.map((p) => ({ src: p.src, alt: p.alt }))}
             fit={0.55}
@@ -213,14 +223,15 @@ export default function Gallery() {
             overlayBlurColor="#0A1614"
             imageBorderRadius="18px"
             openedImageBorderRadius="22px"
-            openedImageWidth="600px"
-            openedImageHeight="450px"
+            openedImageWidth="520px"
+            openedImageHeight="400px"
             onItemClick={(item) => {
               const match = PHOTOS.find((p) => p.alt === item.alt || p.src === item.src);
               if (match) setSelected(match);
             }}
             onItemClose={() => setSelected(null)}
           />
+          </motion.div>
 
           {/* Info panel overlay — appears when image opened */}
           <AnimatePresence>
@@ -230,7 +241,7 @@ export default function Gallery() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 40 }}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="pointer-events-auto absolute top-4 right-4 bottom-4 w-[min(380px,calc(100%-2rem))] z-50 glass-strong rounded-2xl p-6 overflow-y-auto"
+                className="pointer-events-auto absolute z-50 glass-strong rounded-2xl p-6 overflow-y-auto md:top-4 md:right-4 md:bottom-4 md:w-[380px] top-auto bottom-4 right-4 left-4 max-h-[55%] md:max-h-none md:left-auto"
               >
                 <button
                   onClick={() => setSelected(null)}

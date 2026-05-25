@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Quote, Star } from "lucide-react";
+import SplitText from "./SplitText";
 
 const TESTIMONIALS = [
   {
@@ -52,8 +53,8 @@ export default function Testimonials() {
             <span className="w-8 h-px bg-arena" />
           </div>
           <h2 className="font-display text-5xl sm:text-6xl leading-[0.98] tracking-tight">
-            Lo que dicen
-            <span className="italic gradient-emerald"> los que viajan.</span>
+            <SplitText text="Lo que dicen" tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
+            <SplitText text="los que viajan." tag="span" className="block italic gradient-emerald" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
           </h2>
         </motion.div>
 

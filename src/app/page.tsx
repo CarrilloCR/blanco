@@ -12,10 +12,12 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import Marquee from "@/components/Marquee";
 import ThemeToggle from "@/components/ThemeToggle";
+import GlobalAurora from "@/components/GlobalAurora";
 
 export default function Home() {
   return (
     <>
+      <GlobalAurora />
       <Navbar />
       <main className="relative overflow-hidden">
         <Hero />

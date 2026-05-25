@@ -64,23 +64,41 @@ export default function Navbar() {
                   key={s.id}
                   href={`#${s.id}`}
                   data-cursor="link"
-                  className="relative px-4 py-2 text-sm text-marfil/80 hover:text-marfil transition-colors"
+                  className="nav-pill group relative inline-flex items-center justify-center h-10 px-5 text-sm text-marfil/80 overflow-hidden rounded-full isolate"
                 >
                   {active === s.id && (
                     <motion.span
                       layoutId="nav-active"
-                      className="absolute inset-0 rounded-full bg-marfil/[0.08] border border-sol/30"
+                      className="absolute inset-0 rounded-full bg-marfil/[0.08] border border-sol/30 z-0"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
-                  <span className="relative z-10">{s.label}</span>
+                  <span
+                    aria-hidden
+                    className="nav-hover-fill pointer-events-none absolute inset-0 rounded-full z-[1] origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  />
+                  <span className="invisible">{s.label}</span>
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 z-[2] grid place-items-center transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full"
+                  >
+                    {s.label}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="nav-hover-text absolute inset-0 z-[2] grid place-items-center font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  >
+                    {s.label}
+                  </span>
                 </a>
               ))}
             </div>
 
             <div className="flex items-center gap-3">
               <a
-                href={`tel:${PHONE_TEL}`}
+                href={whatsappLink()}
+                target="_blank"
+                rel="noreferrer"
                 data-cursor="link"
                 className="hidden md:inline-flex items-center gap-2 text-sm text-marfil/80 hover:text-sol transition-colors"
               >
@@ -152,7 +170,7 @@ export default function Navbar() {
               >
                 Solicitar servicio
               </a>
-              <a href={`tel:${PHONE_TEL}`} className="btn-ghost">
+              <a href={whatsappLink()} target="_blank" rel="noreferrer" className="btn-ghost">
                 <Phone className="w-4 h-4" />
                 {PHONE_DISPLAY}
               </a>

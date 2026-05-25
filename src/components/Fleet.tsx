@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { Users, Snowflake, Wifi, ShieldCheck, Music2, Luggage } from "lucide-react";
 import SmartImage from "./SmartImage";
 import FloatingShapes from "./FloatingShapes";
+import SplitText from "./SplitText";
 
 type Vehicle = {
   name: string;
@@ -91,8 +92,8 @@ export default function Fleet() {
             FLOTA · 04
           </div>
           <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight max-w-3xl">
-            Vehículos preparados
-            <span className="italic block gradient-emerald"> para operar.</span>
+            <SplitText text="Vehículos preparados" tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
+            <SplitText text="para operar." tag="span" className="block italic gradient-emerald" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
           </h2>
         </motion.div>
 

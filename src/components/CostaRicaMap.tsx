@@ -7,6 +7,8 @@ import { whatsappLink } from "@/lib/utils";
 import DotGrid from "./DotGrid";
 import Magnet from "./Magnet";
 import ClickSpark from "./ClickSpark";
+import SplitText from "./SplitText";
+import BlurText from "./BlurText";
 
 type Province = {
   id: string;
@@ -124,15 +126,18 @@ export default function CostaRicaMap() {
               RUTAS · 05
             </div>
             <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight max-w-3xl">
-              7 provincias.
-              <span className="italic block gradient-text">Un solo país.</span>
-              Todas las rutas.
+              <SplitText text="7 provincias." tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
+              <SplitText text="Un solo país." tag="span" className="block italic gradient-text" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
+              <SplitText text="Todas las rutas." tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
             </h2>
           </div>
-          <p className="text-marfil/60 max-w-md leading-relaxed">
-            Seleccione una provincia para ver los destinos donde operamos.
-            Abra Google Maps con la ruta completa de cada zona.
-          </p>
+          <BlurText
+            text="Seleccione una provincia para ver los destinos donde operamos. Abra Google Maps con la ruta completa de cada zona."
+            animateBy="words"
+            direction="bottom"
+            delay={35}
+            className="text-marfil/60 max-w-md leading-relaxed"
+          />
         </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-start">

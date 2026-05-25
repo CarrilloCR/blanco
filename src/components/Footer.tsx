@@ -23,7 +23,7 @@ const PARTNER_BADGES: LogoItem[] = [
 
 export default function Footer() {
   return (
-    <footer className="relative pt-24 pb-10 overflow-hidden border-t border-marfil/5">
+    <footer className="relative pt-24 pb-10 overflow-hidden border-t border-marfil/5 bg-volcan z-10">
       <div className="absolute inset-0 pointer-events-none stripe-cr opacity-[0.025]" />
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-sol/40 to-transparent" />
 
@@ -139,7 +139,9 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href={`tel:${PHONE_TEL}`}
+                  href={whatsappLink()}
+                  target="_blank"
+                  rel="noreferrer"
                   data-cursor="link"
                   className="group flex items-center justify-between text-marfil/80 hover:text-sol text-sm transition-colors"
                 >
@@ -160,7 +162,7 @@ export default function Footer() {
                 </a>
               </li>
               <li className="pt-2 text-marfil/50 text-sm">
-                San Ramón, Alajuela · Costa Rica
+                San José · Costa Rica
               </li>
             </ul>
           </div>
@@ -173,7 +175,7 @@ export default function Footer() {
             reservados
           </div>
           <div className="flex items-center gap-6">
-            <span>Cédula jurídica 3-101-XXXXXX</span>
+            <span>San José · Costa Rica</span>
             <span className="hidden sm:inline">Pura vida 🇨🇷</span>
           </div>
         </div>

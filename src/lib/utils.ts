@@ -5,9 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const WHATSAPP_NUMBER = "50688887777";
-export const PHONE_DISPLAY = "+506 8888-7777";
-export const PHONE_TEL = "+50688887777";
+export const WHATSAPP_NUMBER = "50683566938";
+export const PHONE_DISPLAY = "+506 8356-6938";
+export const PHONE_TEL = "+50683566938";
 export const EMAIL = "reservas@transblanco.cr";
 
 export function whatsappLink(message?: string) {
