@@ -1,9 +1,11 @@
 "use client";
 
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { MapPin, Mountain, Sparkles, X } from "lucide-react";
 import FloatingShapes from "./FloatingShapes";
+import SectionFx from "./SectionFx";
 import DomeGallery from "./DomeGallery";
 import SplitText from "./SplitText";
 import BlurText from "./BlurText";
@@ -167,13 +169,49 @@ const PHOTOS: Photo[] = [
   },
 ];
 
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const handler = () => setMobile(mq.matches);
+    handler();
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return mobile;
+}
+
 export default function Gallery() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [selected, setSelected] = useState<Photo | null>(null);
+  const isMobile = useIsMobile();
+  const [mounted, setMounted] = useState(false);
+  const [tropical, setTropical] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setTropical(document.documentElement.classList.contains("theme-tropical"));
+    const obs = new MutationObserver(() =>
+      setTropical(document.documentElement.classList.contains("theme-tropical"))
+    );
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => obs.disconnect();
+  }, []);
+
+  // Lock body scroll when modal open on mobile
+  useEffect(() => {
+    if (selected && isMobile) {
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+  }, [selected, isMobile]);
 
   return (
-    <section id="galeria" ref={ref} className="relative py-32 overflow-hidden">
+    <section id="galeria" ref={ref} className="section-cv relative py-20 sm:py-24 lg:py-32 overflow-hidden">
+      <SectionFx variant="gallery" opacity={0.2} />
       <FloatingShapes variant="gallery" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -181,14 +219,14 @@ export default function Gallery() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-14 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
+          className="mb-10 sm:mb-14 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
         >
           <div>
-            <div className="inline-flex items-center gap-2 text-xs font-mono tracking-[0.3em] text-arena mb-4">
-              <span className="w-8 h-px bg-arena" />
+            <div className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-mono tracking-[0.3em] text-arena mb-3 sm:mb-4">
+              <span className="w-6 sm:w-8 h-px bg-arena" />
               GALERÍA · 06
             </div>
-            <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight">
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.98] tracking-tight">
               <SplitText text="Destinos que" tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
               <SplitText text="conectamos." tag="span" className="block italic gradient-text" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
             </h2>
@@ -198,7 +236,7 @@ export default function Gallery() {
             animateBy="words"
             direction="bottom"
             delay={35}
-            className="text-marfil/60 max-w-md"
+            className="text-marfil/60 max-w-md text-sm sm:text-base"
           />
         </motion.div>
 
@@ -206,52 +244,88 @@ export default function Gallery() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative w-full h-[80vh] min-h-[600px] rounded-3xl overflow-hidden glass"
+          className="relative w-full h-[60vh] sm:h-[70vh] lg:h-[80vh] min-h-[420px] sm:min-h-[520px] rounded-2xl sm:rounded-3xl overflow-hidden glass"
         >
           <motion.div
-            animate={{ x: selected ? -210 : 0 }}
+            animate={{ x: !isMobile && selected ? -180 : 0 }}
             transition={{ type: "spring", stiffness: 180, damping: 24 }}
             className="absolute inset-0"
           >
-          <DomeGallery
-            images={PHOTOS.map((p) => ({ src: p.src, alt: p.alt }))}
-            fit={0.55}
-            grayscale={false}
-            dragSensitivity={18}
-            maxVerticalRotationDeg={10}
-            segments={36}
-            overlayBlurColor="#0A1614"
-            imageBorderRadius="18px"
-            openedImageBorderRadius="22px"
-            openedImageWidth="520px"
-            openedImageHeight="400px"
-            onItemClick={(item) => {
-              const match = PHOTOS.find((p) => p.alt === item.alt || p.src === item.src);
-              if (match) setSelected(match);
-            }}
-            onItemClose={() => setSelected(null)}
-          />
+            <DomeGallery
+              images={PHOTOS.map((p) => ({ src: p.src, alt: p.alt }))}
+              fit={isMobile ? 0.5 : 0.55}
+              grayscale={false}
+              dragSensitivity={isMobile ? 12 : 18}
+              maxVerticalRotationDeg={10}
+              segments={36}
+              overlayBlurColor={tropical ? "#FCFFFA" : "#0A1614"}
+              imageBorderRadius="14px"
+              openedImageBorderRadius="18px"
+              openedImageWidth={isMobile ? "82vw" : "520px"}
+              openedImageHeight={isMobile ? "54vw" : "400px"}
+              onItemClick={(item) => {
+                const match = PHOTOS.find((p) => p.alt === item.alt || p.src === item.src);
+                if (match) setSelected(match);
+              }}
+              onItemClose={() => setSelected(null)}
+            />
           </motion.div>
 
-          {/* Info panel overlay — appears when image opened */}
+          {/* Desktop side info panel */}
           <AnimatePresence>
-            {selected && (
+            {selected && !isMobile && (
               <motion.div
+                key="desktop-panel"
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 40 }}
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="pointer-events-auto absolute z-50 glass-strong rounded-2xl p-6 overflow-y-auto md:top-4 md:right-4 md:bottom-4 md:w-[380px] top-auto bottom-4 right-4 left-4 max-h-[55%] md:max-h-none md:left-auto"
+                className="pointer-events-auto absolute z-50 glass-strong rounded-2xl p-6 overflow-y-auto top-4 right-4 bottom-4 w-[360px] lg:w-[380px]"
+              >
+                <PanelContent selected={selected} onClose={() => setSelected(null)} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+
+      {/* Mobile fullscreen modal — covers DomeGallery zoom, shows image + info clearly */}
+      {mounted && createPortal(
+        <AnimatePresence>
+          {selected && isMobile && (
+            <motion.div
+              key="m-modal"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 z-[99999] bg-volcan/95 backdrop-blur-md overflow-y-auto"
+              onClick={() => setSelected(null)}
+            >
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 30, opacity: 0 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                onClick={(e) => e.stopPropagation()}
+                className="min-h-full pb-10"
               >
                 <button
                   onClick={() => setSelected(null)}
-                  aria-label="Cerrar info"
-                  className="absolute top-3 right-3 w-9 h-9 rounded-full bg-marfil/10 hover:bg-marfil/20 grid place-items-center text-marfil transition-colors"
+                  aria-label="Cerrar"
+                  className="fixed top-4 right-4 z-10 w-11 h-11 rounded-full bg-volcan/90 border border-marfil/20 grid place-items-center text-marfil shadow-xl"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-5 h-5" />
                 </button>
 
-                <div className="space-y-5 pr-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={selected.src}
+                  alt={selected.alt}
+                  className="w-full h-[55vh] object-cover"
+                />
+
+                <div className="px-5 pt-6 pb-8 space-y-5">
                   <div>
                     <div className="text-[10px] font-mono tracking-[0.3em] text-sol mb-2">
                       {selected.tag} · {selected.info.type.toUpperCase()}
@@ -297,10 +371,71 @@ export default function Gallery() {
                   </div>
                 </div>
               </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      </div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
+  );
+}
+
+function PanelContent({ selected, onClose }: { selected: Photo; onClose: () => void }) {
+  return (
+    <>
+      <button
+        onClick={onClose}
+        aria-label="Cerrar info"
+        className="absolute top-3 right-3 w-10 h-10 rounded-full bg-marfil/10 hover:bg-marfil/20 grid place-items-center text-marfil transition-colors z-10"
+      >
+        <X className="w-4 h-4" />
+      </button>
+
+      <div className="space-y-5 pr-2">
+        <div>
+          <div className="text-[10px] font-mono tracking-[0.3em] text-sol mb-2">
+            {selected.tag} · {selected.info.type.toUpperCase()}
+          </div>
+          <h3 className="font-display text-2xl text-marfil leading-tight">
+            {selected.caption}
+          </h3>
+        </div>
+
+        <div className="space-y-2 pb-4 border-b border-marfil/10">
+          <div className="flex items-start gap-2 text-sm text-marfil/80">
+            <MapPin className="w-4 h-4 text-sol shrink-0 mt-0.5" />
+            <span>{selected.info.region}</span>
+          </div>
+          {selected.info.elevation && (
+            <div className="flex items-start gap-2 text-sm text-marfil/80">
+              <Mountain className="w-4 h-4 text-sol shrink-0 mt-0.5" />
+              <span>{selected.info.elevation}</span>
+            </div>
+          )}
+          <div className="text-xs text-marfil/50 pt-1 font-mono">
+            {selected.info.driveTime}
+          </div>
+        </div>
+
+        <p className="text-marfil/75 text-sm leading-relaxed">
+          {selected.info.description}
+        </p>
+
+        <div>
+          <div className="text-[10px] font-mono tracking-[0.3em] text-marfil/40 mb-3 inline-flex items-center gap-2">
+            <Sparkles className="w-3 h-3 text-sol" />
+            DESTACADOS
+          </div>
+          <ul className="space-y-1.5">
+            {selected.info.highlights.map((h) => (
+              <li key={h} className="text-sm text-marfil/70 flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-sol" />
+                {h}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
   );
 }

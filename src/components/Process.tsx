@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { MessageSquare, FileText, Truck, CheckCircle2, ArrowRight } from "lucide-react";
 import SplitText from "./SplitText";
 import SpotlightCard from "./SpotlightCard";
+import SectionFx from "./SectionFx";
 
 const STEPS = [
   {
@@ -30,7 +31,7 @@ const STEPS = [
   {
     n: "03",
     icon: Truck,
-    title: "Confirmación de flota",
+    title: "Confirmación de vehículos",
     body: "Asignamos vehículos y conductores. Recibe placas, datos de cada chofer y horarios exactos por punto.",
     spot: "rgba(212, 165, 116, 0.22)" as const,
     accent: "text-arena",
@@ -54,19 +55,20 @@ export default function Process() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="relative py-32 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section ref={ref} className="section-cv relative py-20 sm:py-24 lg:py-32 overflow-hidden">
+      <SectionFx variant="process" opacity={0.2} />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-16 max-w-3xl"
+          className="mb-12 sm:mb-16 max-w-3xl"
         >
           <div className="inline-flex items-center gap-2 text-xs font-mono tracking-[0.3em] text-arena mb-4">
             <span className="w-8 h-px bg-arena" />
             CÓMO OPERAMOS · PARA EMPRESAS Y ORGANIZADORES
           </div>
-          <h2 className="font-display text-5xl sm:text-6xl leading-[0.98] tracking-tight">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl leading-[0.98] tracking-tight">
             <SplitText text="Coordinar" tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
             <SplitText text="su operación." tag="span" className="block italic gradient-text" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
           </h2>

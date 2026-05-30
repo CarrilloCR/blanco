@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { Plane, Hotel, Users, MapPin, RouteIcon, Clock, ArrowUpRight } from "lucide-react";
 import { whatsappLink } from "@/lib/utils";
 import FloatingShapes from "./FloatingShapes";
+import SectionFx from "./SectionFx";
 import SplitText from "./SplitText";
 import BlurText from "./BlurText";
 
@@ -46,7 +47,7 @@ const SERVICES = [
     code: "05",
     title: "Rutas contratadas",
     desc: "Acuerdos de servicio para traslados recurrentes: hotel-tour diario, ruta de empleados o transporte fijo de operación turística.",
-    points: ["Tarifa mensual fija", "Horario acordado", "Prioridad de flota", "Reporte de ruta"],
+    points: ["Tarifa mensual fija", "Horario acordado", "Prioridad de vehículos", "Reporte de ruta"],
     color: "selva",
   },
   {
@@ -72,7 +73,8 @@ export default function Services() {
   const [active, setActive] = useState<number>(0);
 
   return (
-    <section id="servicios" ref={ref} className="relative py-32 overflow-hidden">
+    <section id="servicios" ref={ref} className="section-cv relative py-20 sm:py-24 lg:py-32 overflow-hidden">
+      <SectionFx variant="servicios" opacity={0.2} />
       <FloatingShapes variant="services" />
       <div className="absolute top-1/2 -translate-y-1/2 inset-x-0 h-px bg-gradient-to-r from-transparent via-sol/20 to-transparent" />
 
@@ -81,14 +83,14 @@ export default function Services() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-16"
+          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 sm:mb-14 lg:mb-16"
         >
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-mono tracking-[0.3em] text-arena mb-4">
               <span className="w-8 h-px bg-arena" />
               SERVICIOS · 03
             </div>
-            <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight max-w-3xl">
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.98] tracking-tight max-w-3xl">
               <SplitText
                 text="Transporte"
                 tag="span"
@@ -133,7 +135,7 @@ export default function Services() {
           />
         </motion.div>
 
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+        <div className="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 items-start">
           {/* Left: service list */}
           <div className="lg:col-span-6 space-y-2">
             {SERVICES.map((s, i) => {
@@ -150,21 +152,21 @@ export default function Services() {
                   initial={{ opacity: 0, x: -24 }}
                   animate={inView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.1 + i * 0.07 }}
-                  className={`group w-full text-left rounded-2xl px-5 py-4 border transition-all duration-300 flex items-start gap-4 ${
+                  className={`group w-full text-left rounded-2xl px-4 sm:px-5 py-4 border transition-all duration-300 flex items-start gap-3 sm:gap-4 ${
                     isActive
                       ? `${c.bg} ${c.border} -translate-y-0.5`
                       : "bg-marfil/[0.02] border-marfil/10 hover:border-marfil/25"
                   }`}
                 >
-                  <div className={`shrink-0 w-11 h-11 rounded-xl grid place-items-center ${c.bg} ${c.text} border ${c.border}`}>
+                  <div className={`shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-xl grid place-items-center ${c.bg} ${c.text} border ${c.border}`}>
                     <s.icon className="w-5 h-5" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5">
+                    <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                       <span className="font-mono text-[10px] text-marfil/30">/ {s.code}</span>
-                      <h3 className="font-display text-xl text-marfil truncate">{s.title}</h3>
+                      <h3 className="font-display text-lg sm:text-xl text-marfil">{s.title}</h3>
                     </div>
-                    <p className="text-marfil/55 text-sm leading-snug line-clamp-2">{s.desc}</p>
+                    <p className="text-marfil/55 text-xs sm:text-sm leading-snug line-clamp-2">{s.desc}</p>
                   </div>
                   <ArrowUpRight
                     className={`w-4 h-4 shrink-0 mt-1 transition-all ${

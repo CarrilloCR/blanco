@@ -23,12 +23,12 @@ const PARTNER_BADGES: LogoItem[] = [
 
 export default function Footer() {
   return (
-    <footer className="relative pt-24 pb-10 overflow-hidden border-t border-marfil/5 bg-volcan z-10">
+    <footer className="relative pt-16 sm:pt-24 pb-10 overflow-hidden border-t border-marfil/5 bg-volcan z-10">
       <div className="absolute inset-0 pointer-events-none stripe-cr opacity-[0.025]" />
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-sol/40 to-transparent" />
 
       {/* Big wordmark above footer content */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-10 sm:mb-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

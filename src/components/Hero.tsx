@@ -10,10 +10,7 @@ import {
 import { useEffect, useRef } from "react";
 import { ArrowDown, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import Particles from "./Particles";
-import { LogoMark } from "./LogoMark";
 import { whatsappLink } from "@/lib/utils";
-import FloatingShapes from "./FloatingShapes";
-import Aurora from "./Aurora";
 import SplitText from "./SplitText";
 import GradientText from "./GradientText";
 import BlurText from "./BlurText";
@@ -21,11 +18,11 @@ import ShinyText from "./ShinyText";
 import CountUp from "./CountUp";
 import StarBorder from "./StarBorder";
 
-type Stat = { value: string; label: string; to?: number; suffix?: string; decimals?: number };
+type Stat = { value: string; label: string; to?: number; suffix?: string };
 const STATS: Stat[] = [
   { value: "12+", label: "años de operación", to: 12, suffix: "+" },
   { value: "7/7", label: "provincias cubiertas" },
-  { value: "99%", label: "puntualidad garantizada", to: 99, suffix: "%" },
+  { value: "99%", label: "puntualidad", to: 99, suffix: "%" },
   { value: "24/7", label: "disponibilidad" },
 ];
 
@@ -46,9 +43,7 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const headingY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const wheelY = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
-  const wheelRotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  const headingY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   const mouseX = useMotionValue(0);
@@ -57,13 +52,14 @@ export default function Hero() {
   const sy = useSpring(mouseY, { stiffness: 60, damping: 18 });
 
   useEffect(() => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     function handle(e: MouseEvent) {
       const x = (e.clientX / window.innerWidth - 0.5) * 2;
       const y = (e.clientY / window.innerHeight - 0.5) * 2;
       mouseX.set(x);
       mouseY.set(y);
     }
-    window.addEventListener("mousemove", handle);
+    window.addEventListener("mousemove", handle, { passive: true });
     return () => window.removeEventListener("mousemove", handle);
   }, [mouseX, mouseY]);
 
@@ -76,10 +72,10 @@ export default function Hero() {
     <section
       ref={ref}
       id="inicio"
-      className="relative min-h-screen w-full overflow-hidden flex items-center pt-24 sm:pt-28 pb-32 sm:pb-24"
+      className="relative min-h-[100svh] w-full overflow-hidden flex items-center pt-28 sm:pt-32 pb-28 sm:pb-24"
     >
-      {/* Ambient gradients */}
-      <div className="absolute inset-0 bg-volcan/10">
+      {/* Ambient gradients (desktop) */}
+      <div className="absolute inset-0 bg-volcan/10 hidden sm:block">
         <motion.div
           style={{ x: px1, y: py1 }}
           className="absolute -top-40 -left-40 w-[60vw] h-[60vw] rounded-full blur-3xl opacity-40"
@@ -93,13 +89,18 @@ export default function Hero() {
           <div className="w-full h-full rounded-full bg-gradient-to-br from-sol/60 via-arena/30 to-transparent" />
         </motion.div>
       </div>
+      {/* Mobile soft gradients */}
+      <div className="absolute inset-0 sm:hidden pointer-events-none">
+        <div className="absolute -top-32 -right-20 w-[80vw] h-[80vw] rounded-full blur-3xl opacity-30 bg-gradient-to-br from-sol/60 via-arena/30 to-transparent" />
+        <div className="absolute -bottom-32 -left-20 w-[70vw] h-[70vw] rounded-full blur-3xl opacity-25 bg-gradient-to-br from-selva via-selva/30 to-transparent" />
+      </div>
 
-      <div className="absolute inset-0 bg-grid bg-grid-fade opacity-50" />
+      <div className="absolute inset-0 bg-grid bg-grid-fade opacity-40 sm:opacity-50" />
       <div className="hidden sm:block">
         <Particles density={70} color="#F4B942" speed={0.25} />
       </div>
       <div className="sm:hidden">
-        <Particles density={28} color="#F4B942" speed={0.2} />
+        <Particles density={34} color="#F4B942" speed={0.22} />
       </div>
       <div className="absolute inset-0 noise-overlay pointer-events-none" />
 
@@ -107,23 +108,33 @@ export default function Hero() {
         style={{ opacity }}
         className="relative z-10 mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8"
       >
+        {/* Mobile logo top */}
+        <div className="lg:hidden flex items-center justify-center mb-6 sm:mb-8">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo-tb.png"
+            alt="Trans Blanco Costa Rica"
+            className="h-28 sm:h-36 w-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+          />
+        </div>
+
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* LEFT — Text */}
-          <motion.div style={{ y: headingY }} className="lg:col-span-7 space-y-7">
+          <motion.div style={{ y: headingY }} className="lg:col-span-7 space-y-5 sm:space-y-7 text-center lg:text-left">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-mono tracking-widest"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-[10px] sm:text-xs font-mono tracking-widest mx-auto lg:mx-0"
             >
               <span className="relative flex w-2 h-2">
                 <span className="absolute inset-0 rounded-full bg-sol animate-ping opacity-60" />
                 <span className="relative rounded-full bg-sol w-2 h-2" />
               </span>
-              <ShinyText text="TRANSPORTE PRIVADO · COSTA RICA · DESDE 2013" speed={5} color="rgb(var(--color-arena))" shineColor="rgb(var(--color-sol))" />
+              <ShinyText text="TRANSPORTE PRIVADO · COSTA RICA" speed={5} color="rgb(var(--color-arena))" shineColor="rgb(var(--color-sol))" />
             </motion.div>
 
-            <h1 className="font-display text-[clamp(2.6rem,7vw,5.6rem)] leading-[0.96] tracking-tight text-balance">
+            <h1 className="font-display text-[clamp(2.2rem,7.5vw,5.6rem)] leading-[0.98] tracking-tight text-balance">
               <SplitText
                 text="Su operación"
                 tag="span"
@@ -145,18 +156,18 @@ export default function Hero() {
             </h1>
 
             <BlurText
-              text="Ponemos nuestros microbuses y conductores a disposición de operadores turísticos, empresas y coordinadores de logística. Usted organiza el viaje, nosotros lo ejecutamos."
+              text="Ponemos nuestros microbuses y conductores a disposición de operadores turísticos, empresas y coordinadores. Usted organiza, nosotros ejecutamos."
               animateBy="words"
               direction="bottom"
               delay={40}
-              className="text-marfil/70 text-lg sm:text-xl max-w-xl leading-relaxed"
+              className="text-marfil/70 text-base sm:text-lg md:text-xl max-w-xl mx-auto lg:mx-0 leading-relaxed"
             />
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.65 }}
-              className="flex flex-wrap items-center gap-3"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
             >
               <StarBorder
                 as="a"
@@ -174,37 +185,35 @@ export default function Hero() {
                   <ArrowRight className="w-4 h-4" />
                 </span>
               </StarBorder>
-              <a href="#servicios" data-cursor="link" className="btn-ghost">
+              <a href="#servicios" data-cursor="link" className="btn-ghost !py-3 !px-5 text-sm sm:text-base">
                 <Sparkles className="w-4 h-4 text-sol" />
                 Ver servicios
               </a>
             </motion.div>
 
-            {/* Value props */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-wrap gap-3"
+              className="flex flex-wrap justify-center lg:justify-start gap-3"
             >
               {["Sin contrato mínimo", "Factura electrónica", "Cobertura nacional"].map((v) => (
-                <div key={v} className="inline-flex items-center gap-1.5 text-xs text-marfil/60">
+                <div key={v} className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs text-marfil/60">
                   <CheckCircle2 className="w-3.5 h-3.5 text-selva-300" />
                   {v}
                 </div>
               ))}
             </motion.div>
 
-            {/* Stats */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.95 }}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4 pt-6 border-t border-marfil/10"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-4 pt-6 border-t border-marfil/10"
             >
               {STATS.map((s) => (
-                <div key={s.label}>
-                  <div className="font-display text-2xl text-sol">
+                <div key={s.label} className="text-center lg:text-left">
+                  <div className="font-display text-xl sm:text-2xl text-sol">
                     {s.to != null ? (
                       <>
                         <CountUp to={s.to} duration={1.6} />
@@ -214,7 +223,7 @@ export default function Hero() {
                       s.value
                     )}
                   </div>
-                  <div className="text-xs text-marfil/50 mt-0.5 tracking-wide">{s.label}</div>
+                  <div className="text-[10px] sm:text-xs text-marfil/50 mt-0.5 tracking-wide">{s.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -222,8 +231,7 @@ export default function Hero() {
 
           {/* RIGHT — Logo grande, solo desktop */}
           <motion.div
-            style={{ y: wheelY }}
-            className="hidden lg:flex lg:col-span-5 relative h-[700px] xl:h-[820px] items-center justify-center"
+            className="hidden lg:flex lg:col-span-5 relative h-[640px] xl:h-[740px] items-center justify-center"
           >
             <motion.div
               style={{ x: px2, y: py2 }}
@@ -248,12 +256,12 @@ export default function Hero() {
       </motion.div>
 
       {/* Marquee bottom */}
-      <div className="absolute bottom-6 sm:bottom-10 inset-x-0 z-10 fade-x">
+      <div className="absolute bottom-4 sm:bottom-10 inset-x-0 z-10 fade-x">
         <div className="marquee-track">
           {[...SERVICIOS_MARQUEE, ...SERVICIOS_MARQUEE].map((d, i) => (
             <div
               key={`${d}-${i}`}
-              className="flex items-center gap-4 sm:gap-6 px-4 sm:px-6 text-base sm:text-2xl font-display italic text-marfil/25 whitespace-nowrap"
+              className="flex items-center gap-4 sm:gap-6 px-4 sm:px-6 text-sm sm:text-2xl font-display italic text-marfil/25 whitespace-nowrap"
             >
               <span>{d}</span>
               <span className="text-sol/35">✦</span>

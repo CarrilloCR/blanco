@@ -18,6 +18,15 @@ export default function ThemeToggle() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    setTropical(document.documentElement.classList.contains("theme-tropical"));
+    const obs = new MutationObserver(() => {
+      setTropical(document.documentElement.classList.contains("theme-tropical"));
+    });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
     document.documentElement.classList.toggle("theme-tropical", tropical);
   }, [tropical]);
 
@@ -25,7 +34,7 @@ export default function ThemeToggle() {
   const other = tropical ? PALETTE_DARK : PALETTE_TROPICAL;
 
   return (
-    <div className="fixed bottom-24 right-5 z-50 flex flex-col items-end gap-2">
+    <div className="fixed bottom-24 right-5 z-50 hidden md:flex flex-col items-end gap-2">
       <AnimatePresence>
         {open && (
           <motion.div

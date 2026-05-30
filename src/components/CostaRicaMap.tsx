@@ -95,7 +95,7 @@ export default function CostaRicaMap() {
   const current = PROVINCES.find((p) => p.id === active)!;
 
   return (
-    <section id="rutas" ref={ref} className="relative py-32 overflow-hidden">
+    <section id="rutas" ref={ref} className="section-cv relative py-20 sm:py-24 lg:py-32 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none opacity-30">
         <DotGrid
           dotSize={3}
@@ -118,14 +118,14 @@ export default function CostaRicaMap() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-14 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
+          className="mb-10 sm:mb-14 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
         >
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-mono tracking-[0.3em] text-arena mb-4">
               <span className="w-8 h-px bg-arena" />
               RUTAS · 05
             </div>
-            <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight max-w-3xl">
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.98] tracking-tight max-w-3xl">
               <SplitText text="7 provincias." tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
               <SplitText text="Un solo país." tag="span" className="block italic gradient-text" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
               <SplitText text="Todas las rutas." tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
@@ -167,7 +167,7 @@ export default function CostaRicaMap() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="lg:col-span-7 relative glass rounded-3xl overflow-hidden"
           >
-            <div className="relative aspect-[4/3]">
+            <div className="relative aspect-[16/12] sm:aspect-[4/3]">
               <iframe
                 key={current.id}
                 src={current.mapEmbed}
@@ -195,14 +195,14 @@ export default function CostaRicaMap() {
             transition={{ duration: 0.5 }}
             className="lg:col-span-5 space-y-5"
           >
-            <div className="glass rounded-3xl p-7 space-y-5">
+            <div className="glass rounded-2xl sm:rounded-3xl p-5 sm:p-7 space-y-5">
               <div className="flex items-center gap-3">
                 <div className="w-3 h-3 rounded-full" style={{ background: current.color }} />
                 <span className="text-xs font-mono tracking-[0.3em] text-arena">
                   PROVINCIA · {String(PROVINCES.findIndex((p) => p.id === current.id) + 1).padStart(2, "0")}
                 </span>
               </div>
-              <h3 className="font-display text-4xl text-marfil">{current.name}</h3>
+              <h3 className="font-display text-3xl sm:text-4xl text-marfil">{current.name}</h3>
               <p className="text-marfil/60 leading-relaxed">{current.blurb}</p>
 
               <div className="pt-4 border-t border-marfil/10">

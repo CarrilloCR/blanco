@@ -21,7 +21,7 @@ export const SECTIONS = [
   { id: "inicio", label: "Inicio" },
   { id: "nosotros", label: "Nosotros" },
   { id: "servicios", label: "Servicios" },
-  { id: "flota", label: "Flota" },
+  { id: "vehiculos", label: "Vehículos" },
   { id: "rutas", label: "Rutas" },
   { id: "galeria", label: "Galería" },
   { id: "contacto", label: "Contacto" },

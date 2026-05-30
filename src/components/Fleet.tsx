@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { Users, Snowflake, Wifi, ShieldCheck, Music2, Luggage } from "lucide-react";
 import SmartImage from "./SmartImage";
 import FloatingShapes from "./FloatingShapes";
+import SectionFx from "./SectionFx";
 import SplitText from "./SplitText";
 
 type Vehicle = {
@@ -77,7 +78,8 @@ export default function Fleet() {
   const v = FLEET[active];
 
   return (
-    <section id="flota" ref={ref} className="relative py-32 overflow-hidden">
+    <section id="vehiculos" ref={ref} className="section-cv relative py-20 sm:py-24 lg:py-32 overflow-hidden">
+      <SectionFx variant="vehiculos" opacity={0.2} />
       <FloatingShapes variant="fleet" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -85,13 +87,13 @@ export default function Fleet() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-14"
+          className="mb-10 sm:mb-14"
         >
           <div className="inline-flex items-center gap-2 text-xs font-mono tracking-[0.3em] text-arena mb-4">
             <span className="w-8 h-px bg-arena" />
-            FLOTA · 04
+            VEHÍCULOS · 04
           </div>
-          <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight max-w-3xl">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.98] tracking-tight max-w-3xl">
             <SplitText text="Vehículos preparados" tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
             <SplitText text="para operar." tag="span" className="block italic gradient-emerald" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
           </h2>
@@ -131,7 +133,7 @@ export default function Fleet() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="glass rounded-2xl p-4 text-sm text-marfil/60"
             >
-              <div className="text-[10px] font-mono tracking-widest text-sol mb-2">FLOTA AMPLIABLE</div>
+              <div className="text-[10px] font-mono tracking-widest text-sol mb-2">CAPACIDAD AMPLIABLE</div>
               Coordinamos vehículos adicionales con socios certificados para grupos grandes o eventos.
             </motion.div>
           </div>
@@ -144,7 +146,10 @@ export default function Fleet() {
             transition={{ duration: 0.5 }}
             className="lg:col-span-8 relative glass rounded-3xl overflow-hidden"
           >
-            <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-volcan to-selva-800">
+            <div
+              className="relative aspect-[16/10] overflow-hidden"
+              style={{ background: "linear-gradient(135deg, #0A1614, #102E22)" }}
+            >
               <SmartImage
                 src={v.image}
                 alt={v.name}
@@ -152,7 +157,13 @@ export default function Fleet() {
                 caption={v.name}
                 className="absolute inset-0 w-full h-full"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-volcan via-volcan/20 to-transparent" />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(to top, rgba(10,22,20,0.92), rgba(10,22,20,0.15) 45%, transparent)",
+                }}
+              />
               <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full glass-strong text-xs font-mono tracking-widest text-sol">
                 {v.capacity}
               </div>

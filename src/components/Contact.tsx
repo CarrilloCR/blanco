@@ -87,7 +87,7 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contacto" ref={ref} className="relative py-32 overflow-hidden">
+    <section id="contacto" ref={ref} className="section-cv relative py-20 sm:py-24 lg:py-32 overflow-hidden">
       <FloatingShapes variant="contact" />
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] rounded-full bg-selva/15 blur-3xl" />
@@ -98,13 +98,13 @@ export default function Contact() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-14 max-w-3xl"
+          className="mb-10 sm:mb-14 max-w-3xl"
         >
           <div className="inline-flex items-center gap-2 text-xs font-mono tracking-[0.3em] text-arena mb-4">
             <span className="w-8 h-px bg-arena" />
             CONTACTO · 08
           </div>
-          <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.98] tracking-tight">
             <SplitText text="Solicite su" tag="span" className="block" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
             <SplitText text="próximo servicio." tag="span" className="block italic gradient-text" delay={40} duration={0.8} ease="power3.out" splitType="chars" from={{ opacity: 0, y: 40 }} to={{ opacity: 1, y: 0 }} />
           </h2>
@@ -167,7 +167,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="lg:col-span-7 glass rounded-3xl p-6 sm:p-8 space-y-5"
+            className="lg:col-span-7 glass rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-5"
           >
             <div className="grid sm:grid-cols-2 gap-4">
               <Field label="Nombre *"             value={form.name}        onChange={(v) => set("name", v)}        placeholder="Su nombre o empresa" />

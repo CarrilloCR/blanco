@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import Link from "next/link";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, Moon, Sun } from "lucide-react";
 import { LogoWordmark } from "./LogoMark";
 import { SECTIONS, whatsappLink, PHONE_DISPLAY, PHONE_TEL } from "@/lib/utils";
 
@@ -11,8 +11,19 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [tropical, setTropical] = useState(false);
   const { scrollY } = useScroll();
   const [active, setActive] = useState<string>("inicio");
+
+  useEffect(() => {
+    setTropical(document.documentElement.classList.contains("theme-tropical"));
+  }, [open]);
+
+  function toggleTheme() {
+    const next = !document.documentElement.classList.contains("theme-tropical");
+    document.documentElement.classList.toggle("theme-tropical", next);
+    setTropical(next);
+  }
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -174,6 +185,14 @@ export default function Navbar() {
                 <Phone className="w-4 h-4" />
                 {PHONE_DISPLAY}
               </a>
+              <button
+                onClick={toggleTheme}
+                className="btn-ghost"
+                aria-label="Cambiar tema"
+              >
+                {tropical ? <Sun className="w-4 h-4 text-sol" /> : <Moon className="w-4 h-4 text-sol" />}
+                {tropical ? "Tema claro" : "Tema oscuro"}
+              </button>
             </div>
           </motion.div>
         )}

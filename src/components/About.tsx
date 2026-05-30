@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Truck, ShieldCheck, Clock, BarChart3 } from "lucide-react";
 import FloatingShapes from "./FloatingShapes";
+import SectionFx from "./SectionFx";
 import ScrollReveal from "./ScrollReveal";
 import SplitText from "./SplitText";
 import BlurText from "./BlurText";
@@ -11,7 +12,7 @@ import BlurText from "./BlurText";
 const PILLARS = [
   {
     icon: Truck,
-    title: "Flota siempre disponible",
+    title: "Vehículos siempre disponibles",
     body: "Unidades modernas con mantenimiento preventivo. Nunca cancelamos una asignación por falla mecánica.",
   },
   {
@@ -36,11 +37,12 @@ export default function About() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="nosotros" ref={ref} className="relative py-32 overflow-hidden">
+    <section id="nosotros" ref={ref} className="section-cv relative py-20 sm:py-24 lg:py-32 overflow-hidden">
+      <SectionFx variant="nosotros" opacity={0.2} />
       <FloatingShapes variant="about" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+        <div className="grid lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-20 items-start">
           {/* Left – heading */}
           <div className="lg:col-span-5 lg:sticky lg:top-32">
             <motion.div
@@ -53,7 +55,7 @@ export default function About() {
                 <span className="w-8 h-px bg-arena" />
                 NOSOTROS · 02
               </div>
-              <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.98] tracking-tight">
+              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.98] tracking-tight">
                 <SplitText
                   text="El transporte"
                   tag="span"
@@ -109,7 +111,7 @@ export default function About() {
               initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.15 }}
-              className="relative glass rounded-3xl p-8 sm:p-10 overflow-hidden"
+              className="relative glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-40 h-40 -mt-20 -mr-20 rounded-full bg-sol/20 blur-2xl" />
               <div className="text-xs font-mono tracking-widest text-sol mb-3">MISIÓN</div>
@@ -117,7 +119,7 @@ export default function About() {
                 baseOpacity={0.1}
                 enableBlur
                 blurStrength={6}
-                textClassName="font-display text-2xl sm:text-3xl leading-snug text-marfil text-balance"
+                textClassName="font-display text-xl sm:text-2xl lg:text-3xl leading-snug text-marfil text-balance"
               >
                 Proveer transporte confiable y profesional para quienes coordinan traslados. Nuestro trabajo es hacer que el suyo funcione sin fallas.
               </ScrollReveal>
@@ -128,10 +130,10 @@ export default function About() {
               initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.25 }}
-              className="relative glass rounded-3xl p-8 sm:p-10 overflow-hidden border-l-4 border-selva-500"
+              className="relative glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 overflow-hidden border-l-4 border-selva-500"
             >
               <div className="text-xs font-mono tracking-widest text-selva-300 mb-3">VISIÓN</div>
-              <p className="font-display text-xl sm:text-2xl leading-snug text-marfil/90">
+              <p className="font-display text-lg sm:text-xl lg:text-2xl leading-snug text-marfil/90">
                 Ser el proveedor de transporte privado más confiable de Costa
                 Rica: el que las empresas y operadores llaman primero porque
                 nunca falla.

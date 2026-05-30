@@ -183,6 +183,35 @@ body {
   transition: background 0.4s ease, border-color 0.4s ease;
 }
 
+/* Lighter backdrop blur on small screens — saves GPU */
+@media (max-width: 640px) {
+  .glass {
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    background: rgb(var(--color-marfil) / 0.06);
+  }
+  .glass-strong {
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    background: rgb(var(--color-volcan) / 0.92);
+  }
+}
+
+/* Offscreen-section paint skipping — browsers skip layout/paint until near viewport */
+.section-cv {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 .theme-tropical .glass {
   background: rgb(var(--color-marfil) / 0.07);
   border-color: rgb(var(--color-marfil) / 0.14);

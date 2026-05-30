@@ -7,7 +7,7 @@ const PHRASES_B = "Transfer aeropuerto ✦ Corporativo ✦ Operadores turístico
 
 export default function Marquee() {
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section className="section-cv relative py-12 sm:py-16 lg:py-20 overflow-hidden">
       <div className="divider-leaf mb-10" />
       <ScrollVelocity
         texts={[PHRASES_A, PHRASES_B]}
